@@ -5,8 +5,12 @@ import java.util.ArrayList;
 
 public class Admin extends User
 {
+    
     private String AdminID;
     
+    public Admin(){
+        ///Parameterized Constructor///
+    }
     
     public void addHouse(String houseID, ArrayList<House> houseList){
        
@@ -17,5 +21,12 @@ public class Admin extends User
         houseList.removeIf(house->house.getHouseID() = houseID);
         
     }
+    public Category viewHouseCategory(String houseID, ArrayList<House> houseList){
+        
+        int index = houseList.indexOf(houseID);
+        return houseList.get(index).getCategory();
+    }
+    
+    
     
 }
