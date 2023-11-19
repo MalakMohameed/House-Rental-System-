@@ -1,21 +1,28 @@
+//Daniel @19/11 @ 12:55pm
+//check notes 
 package houserental;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Renter extends User {
     private String RenterID;
     private int numberOfBooking;
-     private List<House> houseList = new ArrayList<House>();
+    private List<House> houseList = new ArrayList<House>();
+     
     Renter(String FirstName, String LastName, int Age, String Phone, String Email){
         //super = constructor to the user calss
-        super(FirstName, LastName, Age , Phone , Email , 2 ); //2 here is the enum corresponding to renter in enum type
+        super(FirstName, LastName, Age , Phone , Email , 2 ); //2 here is the enum corresponding to renter in enum type ///check constructor calling super class 
+                                                                                                                        /// constructor using diff param
     }
     public void setRenterID(String RenterID){
         this.RenterID = RenterID;
     }
+    
     public String getRenterID(){
         return this.RenterID;
     }
+    
     public void rateRent(int Rate){
         int index = -1;
         for(int i = 0 ; i <houseList.size(); i++){
@@ -28,6 +35,7 @@ public class Renter extends User {
        }
     }
     public void viewBookingHistory() {
+        
         ArrayList<Booking> bookingHistory = new ArrayList<>();
         for (House house : houseList) {
             ArrayList<Booking> houseBookings = house.getBookings();
@@ -36,9 +44,8 @@ public class Renter extends User {
                     bookingHistory.add(booking);
                     System.out.println("House ID: " + house.getHouseID());
                 }
-                else{
-                    continue;
-                }
+                   
+                
             }
         }
     }
