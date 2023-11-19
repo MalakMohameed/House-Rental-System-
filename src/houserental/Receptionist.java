@@ -6,24 +6,29 @@ import java.util.List;
 
 public class Receptionist extends User{
     
+    private static int bookingCounter = 0;
+    
     private String ReceptionistID;
-     private List<Booking> bookingList = new ArrayList<Booking>();
-     private List<House> houseList = new ArrayList<House>();
+    private List<Booking> bookingList = new ArrayList<Booking>();
+    private List<House> houseList = new ArrayList<House>();
      
      Receptionist(String FirstName, String LastName, int Age, String UserName, String Password, String Email){
         //super = constructor to the user calss
         super(FirstName, LastName, Age, UserName, Password , Email , 1 ); //1 here is the enum corresponding to renter in enum type   
+        //Same Note as in Renter class regarding the use of super class constructor
      }
      
     public void setReceptionistID(String ReceptionistID){
         this.ReceptionistID = ReceptionistID;
     }
+    
     public String getReceptionistID(){
         return this.ReceptionistID;
     }
     
-      private static int bookingCounter = 0;
+      
       public static String generateBookingID(House house, String renterID, Date startDate, Date endDate) {
+          
         char renterInitial = renterID.isEmpty() ? '?' : renterID.charAt(0);
         String houseIDString = String.valueOf(house.houseId);
         String numberOfRoomsString = String.valueOf(house.numberOfRooms);
@@ -36,7 +41,9 @@ public class Receptionist extends User{
         return bookingID;
     }
      public void createBooking(String RenterID, int numberOfRooms, Enum category, Enum view, Date dateOfRental, Date endOfRental) {
-         //i wanna check if a certain house is empty of not
+         
+        //i wanna check if a certain house is empty of not.
+        
          int index = -1;
          for(int i = 0; i < houseList.size(); i++){
              if(houseList.get(i).getnumberOfRooms.equals(numberOfRooms) && 
@@ -58,6 +65,7 @@ public class Receptionist extends User{
     }
     
     public void specifyRentalDetails(String BookingID){
+        
           int index = -1 ;
        for(int i = 0 ; i <bookingList.size(); i++){
            if(bookingList.get(i).getBookingID().equals(BookingID)){
@@ -77,15 +85,17 @@ public class Receptionist extends User{
     
     public void selecteHouseCategoty(Enum Category){
         House newHouse = new House();
-        newHouse.setCategory = Category;
+        newHouse.setCategory(Category); //changed line to use setters 
     }
     
    public void cancelBooking(String bookingID) {
+       
         bookingList.removeIf(booking -> booking.getBookingID().equals(bookingID));
        // removeBookingFromFile(bookingID);
     }
 
     public double calculatePayment(String BookingID,Date dateOfRental,Date endOfRental){
+        
         int index = -1 ;
        for(int i = 0 ; i <bookingList.size(); i++){
            if(bookingList.get(i).getBookingID().equals(BookingID)){
