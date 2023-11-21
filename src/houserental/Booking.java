@@ -1,7 +1,9 @@
 package houserental;
+
 import java.util.Date;
-import houserental.House;
-import houserental.reciptionist;
+
+
+///Removed Imports from same package. houserental.House and houserental.Receptionist ar both part of house rental package imported above 
 /**
  *
  * @author noor amgad
@@ -26,7 +28,7 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
         this.numberOfNights = numberOfNights;
-        this.totalCost = calculateCost(numberOfNights);
+        this.totalCost = calculateCost(numberOfNights);  ///calculate cost is overridable, check function.
 }
      public String getBookingID() {
         return bookingID;
@@ -101,5 +103,6 @@ public class Booking {
 
  public double calculateCost(int numberOfNights) {
       
-        return numberOfNights * costPerNight; 
-    }
+        return numberOfNights * costPerNight;  ///Definition of `costPerNight`
+    
+ }

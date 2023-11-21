@@ -1,7 +1,7 @@
-package House;
+package houserental;
 import java.util.Date;
 
-
+////Split enums and classes to seperate files Category.java , View.java and Location.java....Refer to UML 
 public class House {
 
  public enum Category{
