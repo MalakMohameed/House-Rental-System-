@@ -1,19 +1,8 @@
-//Edited 
 package houserental;
-
-import java.io.Serializable;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-
-public class User implements Serializable{
-   
+abstract public class User{
     protected String firstName;
     protected String lastName;
+    protected int age;
     protected String email;
     protected String phone;
     protected String userName;
@@ -22,11 +11,12 @@ public class User implements Serializable{
     protected String userID;
     static protected int userCounter;
     
-    User(String firstName, String lastName, String email, String phone, String userName, String password, UserType type){
+    User(String firstName, String lastName, String email, String phone, int age, String userName, String password, UserType type){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.age = age;
         this.userName = userName;
         this.password = password;
         this.type = type;
@@ -48,68 +38,10 @@ public class User implements Serializable{
 
         return userId;
     } 
-    public boolean login(String userName,String Password){
-        try{
-        FileInputStream i = new FileInputStream("Users.txt");
-        ObjectInputStream in = new ObjectInputStream(i);
-        while(in.readLine() != userName){
-        }
-        if(in.readLine() == password){ /////Comparing strings using == instead of str.equal()
-            return true;
-        }
-        else{
-            return false;
-        }
-        }catch (IOException e) {
-            System.out.println(e);
-         return false;
-         //Fixed Error in line 69 Illegal start of expression due to un-closed curly braces.
-         //Added return statement at end of method body
-    }
-    }
-    public void signUp(String NewUserName, String NewPassword, String NewEmail, int NewAge, String NewFirstName, String NewLastName,UserType type,String userID, String newPhone, String newemail){
-        switch(type.ordinal()){
-            case 0:
-                Admin x = new Admin(NewUserName, NewPassword, NewEmail, NewAge, NewFirstName,NewLastName, userID, newphone, newemail);/// what is newphone?? ///
-                try{
-                    FileOutputStream f = new FileOutputStream(new File("Users.txt"));
-	            ObjectOutputStream o = new ObjectOutputStream(f);
-                    o.writeObject(x);
-                    o.close();
-                    f.close();
-                }catch (FileNotFoundException e) {
-			System.out.println("File not found");
-                }catch (IOException e) {
-			System.out.println("Error initializing stream");
-                }
-        
-            case 1:
-                Receptionist y = new Receptionist(NewUserName, NewPassword, NewEmail, NewAge, NewFirstName,NewLastName, userID,newphone, newemail);/// what is newphone?? ///
-                try{
-                    FileOutputStream f = new FileOutputStream(new File("Users.txt"));
-	            ObjectOutputStream o = new ObjectOutputStream(f);
-                    o.writeObject(y);
-                    o.close();
-                    f.close();
-                }catch (FileNotFoundException e) {
-			System.out.println("File not found");
-                }catch (IOException e) {
-			System.out.println("Error initializing stream");
-                }
-        
-            case 2: 
-                Renter z = new Renter(NewUserName, NewPassword, NewEmail, NewAge, NewFirstName,NewLastName, userID,newphone, newemail);/// what is newphone?? ///
-                try{
-                    FileOutputStream f = new FileOutputStream(new File("Users.txt"));
-	            ObjectOutputStream o = new ObjectOutputStream(f);
-                    o.writeObject(z);
-                    o.close();
-                    f.close();
-                }catch (FileNotFoundException e) {
-			System.out.println("File not found");
-                }catch (IOException e) {
-			System.out.println("Error initializing stream");
-                }
-        }
-    }
+
+    abstract protected void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID);
+    abstract protected void login(String username, String password);
+    abstract protected void writeBin();
+    abstract protected void readBin();
+    // all users have unique ArrayLists making it impossible to generalize in this class so it will be overridden in each subclass
 }
