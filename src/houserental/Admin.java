@@ -86,7 +86,7 @@ public class Admin extends User
     public void login(String username, String Password){
         readBin(); //reading the ArrayList of Admins
         for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).userName.equals(username) && Admins.get(i).password.equals(Password)){
+            if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
             }
         }
@@ -95,12 +95,12 @@ public class Admin extends User
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
         for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).userName.equals(newuserName) || Admins.get(i).password.equals(newpassword)){ //making sure that the account doesn't already exist
+            if(Admins.get(i).getUserName().equals(newuserName) || Admins.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
                 System.out.println("account already exists");
                 return;
             }
         }
-        Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type)); //creating new account and adding it to the ArrayList
+        Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }   
 }

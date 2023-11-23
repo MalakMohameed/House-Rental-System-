@@ -164,7 +164,7 @@ public class Receptionist extends User{
     public void login(String username, String Password){
         readBin(); //reading the ArrayList of Receptionist
         for(int i = 0; i < Receptionists.size(); i++){
-            if(Receptionists.get(i).userName.equals(username) && Receptionists.get(i).password.equals(Password)){
+            if(Receptionists.get(i).getUserName().equals(username) && Receptionists.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
             }
         }
@@ -173,12 +173,12 @@ public class Receptionist extends User{
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
         for(int i = 0; i < Receptionists.size(); i++){
-            if(Receptionists.get(i).userName.equals(newuserName) || Receptionists.get(i).password.equals(newpassword)){ //making sure that the account doesn't already exist
+            if(Receptionists.get(i).getUserName().equals(newuserName) || Receptionists.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
                 System.out.println("account already exists");
                 return;
             }
         }
-        Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type)); //creating new account and adding it to the ArrayList
+        Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }
 }
