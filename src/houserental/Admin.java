@@ -13,7 +13,7 @@ public class Admin extends User
 {
     
     private String AdminID;
-    private static ArrayList<Admin> Admins;
+    
     
     public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);

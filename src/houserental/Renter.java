@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 public class Renter extends User {
     private String RenterID;
     private int numberOfBooking;
-    private ArrayList<Renter> Renters;
+    
     private List<House> houseList = new ArrayList<House>();
      
     Renter(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){

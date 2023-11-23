@@ -17,7 +17,7 @@ public class Receptionist extends User{
     private String ReceptionistID;
     private List<Booking> bookingList = new ArrayList<Booking>();
     private List<House> houseList = new ArrayList<House>();
-    private ArrayList<Receptionist> Receptionists;
+   
      
      Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
         //super = constructor to the user calss

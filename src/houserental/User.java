@@ -1,5 +1,7 @@
 package houserental;
         
+import java.util.ArrayList;
+
 abstract public class User{
 
    
@@ -13,6 +15,9 @@ abstract public class User{
     protected UserType type;
     protected String userID;
     static protected int userCounter;
+    static public ArrayList<Receptionist> Receptionists;   ///Moved From Receptionist Class and changed to static 
+    static public  ArrayList<Admin> Admins;
+    static public ArrayList<Renter> Renters;
     
     User(String firstName, String lastName, String email, String phone, int age, String userName, String password, UserType type){
         this.firstName = firstName;
@@ -41,6 +46,9 @@ abstract public class User{
 
         return userId;
     } 
+    
+    
+    
     
   
     
