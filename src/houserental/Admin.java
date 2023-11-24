@@ -25,13 +25,13 @@ public class Admin extends User
     }
     
     public void removeHouse(String houseID, ArrayList<House> houseList){
-        houseList.removeIf(house->house.getHouseID() = houseID);
+        houseList.removeIf(house->house.getHouseID().equals(houseID));
         
     }
-    public Category viewHouseCategory(String houseID, ArrayList<House> houseList){
+    public House.Category viewHouseCategory(String houseID, ArrayList<House> houseList){
         
         int index = houseList.indexOf(houseID);
-        return houseList.get(index).getCategory();
+        return (House.Category) houseList.get(index).getCategory();
     }
     
     public void addCustomer(String RenterID){ /////Add Customer by ID ???
@@ -40,11 +40,6 @@ public class Admin extends User
         
     }
     
-    
-    public ArrayList<Renter> listCustomerByField(UserType UT){
-        ArrayList<Renter> = new ArrayList<Renter>();
-        for(Renter R : Renters) 
-    }
     
     
     public ArrayList<Booking> viewBookingPerReceptionist(String ReceptionistID){

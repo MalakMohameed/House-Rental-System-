@@ -121,16 +121,7 @@ public class Receptionist extends User{
         }
     }
     
-      public Receptionist getUserByID(String UserID){ ///Error Handling
-        
-        for (Receptionist e : Receptionists){
-            if(e.ReceptionistID.equals(UserID)){
-                int index = Receptionists.indexOf(e);
-                return Receptionists.get(index);
-            }
-        }
-        return null;
-    }
+      
     
       
       

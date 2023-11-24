@@ -14,10 +14,12 @@ abstract public class User{
     protected String password;
     protected UserType type;
     protected String userID;
+    protected UserType userType;
     static protected int userCounter;
-    static public ArrayList<Receptionist> Receptionists;   ///Moved From Receptionist Class and changed to static 
-    static public  ArrayList<Admin> Admins;
-    static public ArrayList<Renter> Renters;
+    static protected ArrayList<User> Users;
+    static protected ArrayList<Receptionist> Receptionists;   ///Moved From Receptionist Class and changed to static 
+    static protected ArrayList<Admin> Admins;
+    static protected ArrayList<Renter> Renters;
     
     User(String firstName, String lastName, String email, String phone, int age, String userName, String password, UserType type){
         this.firstName = firstName;
@@ -48,9 +50,32 @@ abstract public class User{
     } 
     
     
+    public User getUserByID(String UserID){ ///Error Handling
+        
+        for (User e : Users){
+            if(e.userID.equals(UserID)){
+                int index = Users.indexOf(e);
+                return Users.get(index);
+            }
+        }
+        return null;
+    }
+    public ArrayList<User> getUsersByType(UserType userType){
+        
+        ArrayList<User> Users = new ArrayList();
+        for(User e: Users)
+        {
+            if(e.userType == userType){
+                Users.add(e);
+            }
+        }
+        return Users;
+        
+    }
+    
+     
     
     
-  
     
     abstract protected void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID);
     abstract protected void login(String username, String password);
