@@ -116,7 +116,7 @@ public class Receptionist extends User{
        if (index != -1) {
        long diffInMillies = Math.abs(endOfRental.getTime() - dateOfRental.getTime());
        long diffInDays = diffInMillies / (24 * 60 * 60 * 1000);
-       return bookingList.get(index).calculateCost(diffInDays); //Fixed in Booking class changed data tyepe from int to long
+       return bookingList.get(index).calculateCost((int) diffInDays); //Fixed in Booking class changed data tyepe from int to long
        }
        else {
             System.out.println("Booking not found.");

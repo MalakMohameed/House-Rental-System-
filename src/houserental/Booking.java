@@ -107,7 +107,7 @@ public class Booking {
         this.totalCost = totalCost;
     }
 
- public double calculateCost(long numberOfNights) { //changed from int to long
+ public double calculateCost(int numberOfNights) { //changed from int to long
       
         return numberOfNights * costPerNight;  ///Definition of `costPerNight`
     
