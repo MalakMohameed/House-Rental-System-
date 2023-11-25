@@ -30,6 +30,12 @@ public class Booking {
         this.numberOfNights = numberOfNights;
         this.totalCost = calculateCost(numberOfNights);  ///calculate cost is overridable, check function.
 }
+
+//    this constructor got created to match the fucntion in the Receptionist class (createBooking)
+//    Booking(String RenterID, int numberOfRooms, Enum category, Enum view, Date dateOfRental, Date endOfRental) {
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
+     
      public String getBookingID() {
         return bookingID;
     }
@@ -101,7 +107,7 @@ public class Booking {
         this.totalCost = totalCost;
     }
 
- public double calculateCost(int numberOfNights) {
+ public double calculateCost(long numberOfNights) { //changed from int to long
       
         return numberOfNights * costPerNight;  ///Definition of `costPerNight`
     

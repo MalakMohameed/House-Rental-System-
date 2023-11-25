@@ -34,12 +34,12 @@ public class Receptionist extends User{
     }
     
       
-        public static String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
-                                                                                                           ////Why is this function static?     
+        public String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
+                                                                                                           ////Why is this function static?     //Fixed
         char renterInitial = renterID.isEmpty() ? '?' : renterID.charAt(0);
         
-        String numberOfRoomsString = String.valueOf(House.getNumberOfRooms());
-        String houseIDString = String.valueOf(House.getHouseID());
+        String numberOfRoomsString = String.valueOf(house.getNumberOfRooms());
+        String houseIDString = String.valueOf(house.getHouseID());
         
         String counterString = String.valueOf(bookingCounter++);
         char categoryInitial = house.getCategory().toString().charAt(0);
@@ -51,26 +51,27 @@ public class Receptionist extends User{
     }
      public void createBooking(String RenterID, int numberOfRooms, Enum category, Enum view, Date dateOfRental, Date endOfRental) {
          
-        //i wanna check if a certain house is empty of not.
+        //i wanna check if a certain house is empty of not. //Fixed 
         
-         int index = -1;
-         for(int i = 0; i < houseList.size(); i++){
-             if(houseList.get(i).getNumberOfRooms().equals(numberOfRooms) && ////Shows Error 'int can't be dereferenced`....
-                     houseList.get(i).getCategory().equals(category) && 
-                     houseList.get(i).getView().equals(view) &&
-                     houseList.get(i).isRented() = 0)
-             {
-                 index = i;
-                 break;
-             }
-             else{
-                 System.out.println("House Category isn't found.");
-             }
-         }
-        String bookingID = generateBookingID(houseList.get(i).houseID,RenterID,dateOfRental,endOfRental);
-        Booking newBooking = new Booking(RenterID,numberOfRooms,category, view, dateOfRental, endOfRental);
-        bookingList.add(newBooking);
-        //saveBookingToFile(newBooking);
+          int index = -1;
+        for (int i = 0; i < houseList.size(); i++) {
+            if (houseList.get(i).getNumberOfRooms() == numberOfRooms &&
+                houseList.get(i).getCategory() == category &&
+                houseList.get(i).getView() == view &&
+                !houseList.get(i).isRented()) {
+                index = i;
+                break;
+            } else {
+                System.out.println("House Category isn't found.");
+            }
+        }
+
+        if (index != -1) {
+            String bookingID = generateBookingID(houseList.get(index), RenterID, dateOfRental, endOfRental);
+            Booking newBooking = new Booking(RenterID, numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
+            bookingList.add(newBooking);
+            // saveBookingToFile(newBooking);
+        }
     }
     
     public void specifyRentalDetails(String BookingID){
@@ -93,7 +94,7 @@ public class Receptionist extends User{
     }
     
     public void selecteHouseCategoty(Enum Category){
-        House newHouse = new House();
+        House newHouse = new House(); //no defualt constructor 
         newHouse.setCategory(Category); //changed line to use setters 
     }
     
@@ -115,7 +116,7 @@ public class Receptionist extends User{
        if (index != -1) {
        long diffInMillies = Math.abs(endOfRental.getTime() - dateOfRental.getTime());
        long diffInDays = diffInMillies / (24 * 60 * 60 * 1000);
-       return bookingList.get(index).claculateCost(diffInDays);
+       return bookingList.get(index).calculateCost(diffInDays); //Fixed in Booking class changed data tyepe from int to long
        }
        else {
             System.out.println("Booking not found.");
