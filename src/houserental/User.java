@@ -21,6 +21,8 @@ abstract public class User{
     static protected ArrayList<Admin> Admins;
     static protected ArrayList<Renter> Renters;
     
+    User(){}
+    
     User(String firstName, String lastName, String email, String phone, int age, String userName, String password, UserType type){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -34,6 +36,7 @@ abstract public class User{
     
     public static String generateUserId(String FirstName, String LastName, int age, String phone, String email, Enum type) {
         // Extract initials from the first and last name
+        System.out.println("houserental.User.generateUserId()");
         char firstInitial = FirstName.isEmpty() ? '?' : FirstName.charAt(0);
         char lastInitial = LastName.isEmpty() ? '?' : LastName.charAt(0);
 
@@ -50,16 +53,16 @@ abstract public class User{
     } 
     
     
-    public User getUserByID(String UserID){ ///Error Handling
-        
-        for (User e : Users){
-            if(e.userID.equals(UserID)){
-                int index = Users.indexOf(e);
-                return Users.get(index);
-            }
-        }
-        return null;
-    }
+//    public User getUserByID(String UserID){ ///Error Handling
+//        
+//        for (User e : Users){
+//            if(e.userID.equals(UserID)){
+//                int index = Users.indexOf(e);
+//                return Users.get(index);
+//            }
+//        }
+//        return null;
+//    }
     public ArrayList<User> getUsersByType(UserType userType){
         
         ArrayList<User> Users = new ArrayList();

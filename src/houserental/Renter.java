@@ -16,11 +16,13 @@ public class Renter extends User {
     private int numberOfBooking;
     
     private List<House> houseList = new ArrayList<House>();
-     
+    
+    Renter(){}
+    
     Renter(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
         //super = constructor to the user calss
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type); //2 here is the enum corresponding to renter in enum type ///check constructor calling super class 
-                                                                                                                        /// constructor using diff param
+         this.RenterID = User.generateUserId(newfirstName, newlastName, age, newphone, newemail, type);                                                                                                               /// constructor using diff param
     }
     public void setRenterID(String RenterID){
         this.RenterID = RenterID;
@@ -56,6 +58,19 @@ public class Renter extends User {
             }
         }
     }
+    
+    
+     public User getUserByID(String RenterID){ ///Error Handling
+        
+        for (Renter e : Renters){
+            if(e.userID.equals(RenterID)){
+                int index = Renters.indexOf(e);
+                return Renters.get(index);
+            }
+        }
+        return null;
+    }
+    
         @Override
     public void writeBin(){   //This writes the ArrayList of Renters for later
         try{
@@ -65,6 +80,7 @@ public class Renter extends User {
         }catch (IOException e) {
             System.out.println(e);
     }
+            System.out.println("houserental.Renter.writeBin()");
    }
 
     @Override
@@ -78,7 +94,9 @@ public class Renter extends User {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Renter.class.getName()).log(Level.SEVERE, null, ex);}
         }catch (IOException e) {
-            System.out.println(e);}
+            System.out.println(e);
+        }
+        System.out.println("houserental.Renter.readBin()");
     }
     @Override
     public void login(String username, String Password){

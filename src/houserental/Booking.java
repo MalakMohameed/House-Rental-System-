@@ -15,6 +15,7 @@ public class Booking {
     private House rentedHouse;
     private Date startDate;
     private Date endDate;
+    
     private int numberOfNights;
     private double totalCost;
   
@@ -109,6 +110,7 @@ public class Booking {
 
  public double calculateCost(int numberOfNights) { //changed from int to long
       
-        return numberOfNights * costPerNight;  ///Definition of `costPerNight`
+        return numberOfNights * rentedHouse.getCostPerNight();  ///Definition of `costPerNight`////This is an attribute of the rented house Object.
     
  }
+}

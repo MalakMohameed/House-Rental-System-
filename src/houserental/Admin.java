@@ -44,12 +44,21 @@ public class Admin extends User
     
     public ArrayList<Booking> viewBookingPerReceptionist(String ReceptionistID){
         
-        Receptionist receptionistBook = null;
-        receptionistBook = receptionistBook.getUserByID(ReceptionistID);
-        return receptionistBook.
+        Receptionist receptionist = null;
+        receptionist = receptionist.getUserByID(ReceptionistID);
+        return receptionist.getBookingList();
         
     }
-    
+    public User getUserByID(String UserID){ ///Error Handling
+        
+        for (Admin e : Admins){
+            if(e.userID.equals(UserID)){
+                int index = Admins.indexOf(e);
+                return Admins.get(index);
+            }
+        }
+        return null;
+    }
     
     
     ////User Class Methods Overriding

@@ -30,6 +30,9 @@ public class House {
     
     
     //Constructor
+    public House(){
+        //Default Constructior
+    }
 
     public House(Enum category, Enum view, int numberOfRentals, String houseID, boolean rented, Date dateOfRental, Date endOfRental, int numberOfBedrooms, int numberOfBathrooms, String Description, int costPerNight, int Rate) {
         this.category = category;

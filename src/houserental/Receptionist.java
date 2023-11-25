@@ -15,8 +15,8 @@ public class Receptionist extends User{
     private static int bookingCounter = 0;
     
     private String ReceptionistID;
-    private List<Booking> bookingList = new ArrayList<Booking>();
-    private List<House> houseList = new ArrayList<House>();
+    private ArrayList<Booking> bookingList = new ArrayList<Booking>();
+    private ArrayList<House> houseList = new ArrayList<House>();
    
      
      Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
@@ -49,7 +49,7 @@ public class Receptionist extends User{
         String bookingID = String.valueOf(renterInitial) + houseIDString + numberOfRoomsString + counterString +categoryInitial + viewInitial + datePart;
         return bookingID;
     }
-     public void createBooking(String RenterID, int numberOfRooms, Enum category, Enum view, Date dateOfRental, Date endOfRental) {
+     public void createBooking(Renter renter, String HouseID ,int numberOfNights, Enum category, Enum view, Date dateOfRental, Date endOfRental, int numberOfRooms) {
          
         //i wanna check if a certain house is empty of not. //Fixed 
         
@@ -67,8 +67,12 @@ public class Receptionist extends User{
         }
 
         if (index != -1) {
-            String bookingID = generateBookingID(houseList.get(index), RenterID, dateOfRental, endOfRental);
-            Booking newBooking = new Booking(RenterID, numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
+            String bookingID = generateBookingID(houseList.get(index), renter.getRenterID(), dateOfRental, endOfRental);
+            
+            //Booking newBooking = new Booking(bookingID,this ,numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
+            Booking tempBook = null;
+            double cost = tempBook.calculateCost(numberOfNights);
+            Booking newBooking = new Booking(bookingID, this, renter,houseList.get(houseList.indexOf(HouseID)),dateOfRental, endOfRental, numberOfNights, cost); 
             bookingList.add(newBooking);
             // saveBookingToFile(newBooking);
         }
@@ -85,8 +89,8 @@ public class Receptionist extends User{
        }
        if (index != -1) {
             System.out.println("Booking ID: " + bookingList.get(index).getBookingID());
-        System.out.println("Renter: " + bookingList.get(index).getRenter().getName()); 
-        System.out.println("House: " + bookingList.get(index).getHouse().getHouseID());
+        System.out.println("Renter: " + bookingList.get(index).getRenter().getUserName()); 
+        System.out.println("House: " + bookingList.get(index).getRentedHouse().getHouseID());
        }
        else{
              System.out.println("Booking not found.");
@@ -94,7 +98,7 @@ public class Receptionist extends User{
     }
     
     public void selecteHouseCategoty(Enum Category){
-        House newHouse = new House(); //no defualt constructor 
+        House newHouse = new House(); //no defualt constructor //Added Default Constructor
         newHouse.setCategory(Category); //changed line to use setters 
     }
     
@@ -126,8 +130,22 @@ public class Receptionist extends User{
     
       
     
+      public Receptionist getUserByID(String UserID){ ///Error Handling
+        
+        for (Receptionist e : Receptionists){
+            if(e.userID.equals(UserID)){
+                int index = Receptionists.indexOf(e);
+                return Receptionists.get(index);
+            }
+        }
+        return null;
+    }
       
       
+      public ArrayList<Booking> getBookingList()
+      {
+          return this.bookingList;
+      }
     
     
         @Override
