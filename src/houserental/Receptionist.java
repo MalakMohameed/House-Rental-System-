@@ -34,14 +34,16 @@ public class Receptionist extends User{
     }
     
       
-      public static String generateBookingID(House house, String renterID, Date startDate, Date endDate) {
-          
+        public static String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
+                                                                                                           ////Why is this function static?     
         char renterInitial = renterID.isEmpty() ? '?' : renterID.charAt(0);
-        String houseIDString = String.valueOf(house.houseId);
-        String numberOfRoomsString = String.valueOf(house.numberOfRooms);
+        
+        String numberOfRoomsString = String.valueOf(House.getNumberOfRooms());
+        String houseIDString = String.valueOf(House.getHouseID());
+        
         String counterString = String.valueOf(bookingCounter++);
-        char categoryInitial = house.category.toString().charAt(0);
-        char viewInitial = house.view.toString().charAt(0);
+        char categoryInitial = house.getCategory().toString().charAt(0);
+        char viewInitial = house.getView().toString().charAt(0);
         String datePart = String.valueOf(startDate.getTime() % 100000) + String.valueOf(endDate.getTime() % 100000);
         
         String bookingID = String.valueOf(renterInitial) + houseIDString + numberOfRoomsString + counterString +categoryInitial + viewInitial + datePart;
@@ -53,10 +55,10 @@ public class Receptionist extends User{
         
          int index = -1;
          for(int i = 0; i < houseList.size(); i++){
-             if(houseList.get(i).getnumberOfRooms.equals(numberOfRooms) && 
-                     houseList.get(i).category.equals(category) && 
-                     houseList.get(i).getview.equals(view) &&
-                     houseList.get(i).empty = 0)
+             if(houseList.get(i).getNumberOfRooms().equals(numberOfRooms) && ////Shows Error 'int can't be dereferenced`....
+                     houseList.get(i).getCategory().equals(category) && 
+                     houseList.get(i).getView().equals(view) &&
+                     houseList.get(i).isRented() = 0)
              {
                  index = i;
                  break;

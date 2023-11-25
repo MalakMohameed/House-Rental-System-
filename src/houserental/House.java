@@ -102,11 +102,11 @@ public class House {
         this.endOfRental = endOfRental;
     }
 
-    public int getNumberOfBedrooms() {
+    public int getNumberOfRooms() {
         return numberOfBedrooms;
     }
 
-    public void setNumberOfBedrooms(int numberOfBedrooms) {
+    public void setNumberOfRooms(int numberOfBedrooms) {
         this.numberOfBedrooms = numberOfBedrooms;
     }
 
