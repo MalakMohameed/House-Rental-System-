@@ -13,7 +13,7 @@ public class Admin extends User
 {
     
     private String AdminID;
-    private static ArrayList<Admin> Admins;
+    
     
     public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);
@@ -25,13 +25,13 @@ public class Admin extends User
     }
     
     public void removeHouse(String houseID, ArrayList<House> houseList){
-        houseList.removeIf(house->house.getHouseID() = houseID);
+        houseList.removeIf(house->house.getHouseID().equals(houseID));
         
     }
-    public Category viewHouseCategory(String houseID, ArrayList<House> houseList){
+    public House.Category viewHouseCategory(String houseID, ArrayList<House> houseList){
         
         int index = houseList.indexOf(houseID);
-        return houseList.get(index).getCategory();
+        return (House.Category) houseList.get(index).getCategory();
     }
     
     public void addCustomer(String RenterID){ /////Add Customer by ID ???
@@ -41,20 +41,24 @@ public class Admin extends User
     }
     
     
-    public ArrayList<Renter> listCustomerByField(UserType UT){
-        ArrayList<Renter> = new ArrayList<Renter>();
-        for(Renter R : Renters) 
-    }
-    
     
     public ArrayList<Booking> viewBookingPerReceptionist(String ReceptionistID){
         
-        Receptionist receptionistBook = null;
-        receptionistBook = receptionistBook.getUserByID(ReceptionistID);
-        return receptionistBook.
+        Receptionist receptionist = null;
+        receptionist = receptionist.getUserByID(ReceptionistID);
+        return receptionist.getBookingList();
         
     }
-    
+    public User getUserByID(String UserID){ ///Error Handling
+        
+        for (Admin e : Admins){
+            if(e.userID.equals(UserID)){
+                int index = Admins.indexOf(e);
+                return Admins.get(index);
+            }
+        }
+        return null;
+    }
     
     
     ////User Class Methods Overriding
@@ -86,7 +90,7 @@ public class Admin extends User
     public void login(String username, String Password){
         readBin(); //reading the ArrayList of Admins
         for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).userName.equals(username) && Admins.get(i).password.equals(Password)){
+            if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
             }
         }
@@ -95,12 +99,12 @@ public class Admin extends User
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
         for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).userName.equals(newuserName) || Admins.get(i).password.equals(newpassword)){ //making sure that the account doesn't already exist
+            if(Admins.get(i).getUserName().equals(newuserName) || Admins.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
                 System.out.println("account already exists");
                 return;
             }
         }
-        Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type)); //creating new account and adding it to the ArrayList
+        Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }   
 }

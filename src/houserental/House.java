@@ -30,6 +30,9 @@ public class House {
     
     
     //Constructor
+    public House(){
+        //Default Constructior
+    }
 
     public House(Enum category, Enum view, int numberOfRentals, String houseID, boolean rented, Date dateOfRental, Date endOfRental, int numberOfBedrooms, int numberOfBathrooms, String Description, int costPerNight, int Rate) {
         this.category = category;
@@ -102,11 +105,11 @@ public class House {
         this.endOfRental = endOfRental;
     }
 
-    public int getNumberOfBedrooms() {
+    public int getNumberOfRooms() {
         return numberOfBedrooms;
     }
 
-    public void setNumberOfBedrooms(int numberOfBedrooms) {
+    public void setNumberOfRooms(int numberOfBedrooms) {
         this.numberOfBedrooms = numberOfBedrooms;
     }
 
