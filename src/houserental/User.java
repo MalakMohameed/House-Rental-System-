@@ -49,6 +49,7 @@ abstract public class User{
         // Combine the elements
         String userId = type.toString() + String.valueOf(firstInitial) + String.valueOf(lastInitial) + ageString + counterString;
 
+        System.out.println("ID GENERATED: " + userId);
         return userId;
     } 
     

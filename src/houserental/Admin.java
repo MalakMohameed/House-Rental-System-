@@ -19,9 +19,8 @@ public class Admin extends User
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);
     }
     
-    public void addHouse(String houseID, ArrayList<House> houseList){
-       
-        ///TBD after HouseClass layout is set///
+    public void addHouse(House obj,ArrayList<House> houseList){
+       houseList.add(obj);
     }
     
     public void removeHouse(String houseID, ArrayList<House> houseList){
@@ -59,6 +58,14 @@ public class Admin extends User
         }
         return null;
     }
+   public void removeCustumer(User obj){
+           Users.remove(obj);
+           obj=null;
+             
+   }
+   public void addCustomer (User obj){
+       Users.add(obj);
+   }
     
     
     ////User Class Methods Overriding

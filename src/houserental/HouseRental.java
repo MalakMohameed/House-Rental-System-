@@ -14,9 +14,10 @@ public class HouseRental {
         UserType ReceptionistType = UserType.Receptionist;
         
       Renter customer = new Renter("Daniel", "Michel", "D@gmail.com", "01115566999", 22,"Danioooll", "wawa",renterType);
-      System.out.println("New Customer Added to list: " + customer.getFirstName()+ " UserName: "+ customer.getUserName()+ " USer ID: " + customer.getUserID());
-        
+      System.out.println("New Customer Added to list: " + customer.getFirstName()+ " UserName: "+ customer.getUserName()+ " User ID: " + customer.getRenterID());
+        Renter customer1 = new Renter("Youssef", "Michel", "Y@gmail.com", "01115566420", 31,"joeee", "wawa55",renterType);
       customer.writeBin();
+        System.out.println(customer.getAllUsers().size());
       
     }
     

@@ -22,7 +22,8 @@ public class Renter extends User {
     Renter(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
         //super = constructor to the user calss
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type); //2 here is the enum corresponding to renter in enum type ///check constructor calling super class 
-         this.RenterID = User.generateUserId(newfirstName, newlastName, age, newphone, newemail, type);                                                                                                               /// constructor using diff param
+         this.setRenterID( User.generateUserId(newfirstName, newlastName, age, newphone, newemail, type));                                                                                                               /// constructor using diff param
+         System.out.println("houserental.Renter.<init>()" + this.getRenterID());
     }
     public void setRenterID(String RenterID){
         this.RenterID = RenterID;
@@ -32,10 +33,10 @@ public class Renter extends User {
         return this.RenterID;
     }
     
-    public void rateRent(int Rate){
+    public void rateRent(int Rate){ ////Change this to have an enum of Rating and basically refactor into cleaner code.
         int index = -1;
         for(int i = 0 ; i <houseList.size(); i++){
-           if(houseList.get(i).getRenterID().equals(this.RenterID) && Rate >= 5){ //five stars or less
+           if(houseList.get(i).getUserID().equals(this.getRenterID()) && Rate >= 5){ //five stars or less
                index = i;
                break;
            }else{
@@ -49,7 +50,7 @@ public class Renter extends User {
         for (House house : houseList) {
             ArrayList<Booking> houseBookings = house.getBookings();
             for (Booking booking : houseBookings) {
-                if (booking.getRenter().getRenterID().equals(this.RenterID)) {
+                if (booking.getRenter().getRenterID().equals(this.getRenterID())) {
                     bookingHistory.add(booking);
                     System.out.println("House ID: " + house.getHouseID());
                 }
@@ -71,6 +72,13 @@ public class Renter extends User {
         return null;
     }
     
+     public ArrayList<Renter> getAllUsers(){
+         if(Renters.isEmpty()) { System.out.println("Empty List");return null;}
+         else {
+             return this.Renters;
+         }
+     }
+     
         @Override
     public void writeBin(){   //This writes the ArrayList of Renters for later
         try{
