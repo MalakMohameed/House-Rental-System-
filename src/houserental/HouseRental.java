@@ -9,14 +9,18 @@ import java.util.ArrayList;
 
 public class HouseRental { 
     public static void main(String[] args) {
+        UserType renterType = UserType.Renter;
+        UserType AdminType = UserType.Admin;
+        UserType ReceptionistType = UserType.Receptionist;
         
-        System.out.println("Empty Repo but it's there!!!!");
+      Renter customer = new Renter("Daniel", "Michel", "D@gmail.com", "01115566999", 22,"Danioooll", "wawa",renterType);
+      System.out.println("New Customer Added to list: " + customer.getFirstName()+ " UserName: "+ customer.getUserName()+ " USer ID: " + customer.getUserID());
         
-        ////Test comment 
-        ///G was here;)
-        //KAKa was here
-        ///D remote work session test Works absoulutly fine///
-        
+      customer.writeBin();
+      
     }
     
 }
+
+
+///Last Edit 21/11 @9:42 ... /// 
