@@ -1,6 +1,7 @@
 package houserental;
         
 import java.util.ArrayList;
+import java.util.regex.*;
 
 abstract public class User{
 
@@ -16,10 +17,10 @@ abstract public class User{
     protected String userID;
     protected UserType userType;
     static protected int userCounter;
-    static protected ArrayList<User> Users;
-    static protected ArrayList<Receptionist> Receptionists;   ///Moved From Receptionist Class and changed to static 
-    static protected ArrayList<Admin> Admins;
-    static protected ArrayList<Renter> Renters;
+    static protected ArrayList<User> Users = new ArrayList<User>();
+    static protected ArrayList<Receptionist> Receptionists =new ArrayList<Receptionist>();   ///Moved From Receptionist Class and changed to static 
+    static protected ArrayList<Admin> Admins = new ArrayList<Admin>();
+    static protected ArrayList<Renter> Renters = new ArrayList<Renter>();
     
     User(){}
     
@@ -76,7 +77,21 @@ abstract public class User{
         return Users;
         
     }
-    
+    public static boolean isValidEmail(String email) {
+
+//        String emailRegex = "^[a-zA-Z0-9+&*-]+(?:\.[a-zA-Z0-9+&-]+)@(gmail\.com|yahoo\.com|outlook\.com)$";
+            String emailRegex ="^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
+        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+
+        Pattern pattern = Pattern.compile(emailRegex);
+
+
+        Matcher matcher = pattern.matcher(email);
+
+
+        return matcher.matches();
+    }
      
     
     

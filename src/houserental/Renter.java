@@ -7,11 +7,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Renter extends User {
+
+public class Renter extends User implements Serializable{
     private String RenterID;
     private int numberOfBooking;
     
@@ -24,6 +26,9 @@ public class Renter extends User {
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type); //2 here is the enum corresponding to renter in enum type ///check constructor calling super class 
          this.setRenterID( User.generateUserId(newfirstName, newlastName, age, newphone, newemail, type));                                                                                                               /// constructor using diff param
          System.out.println("houserental.Renter.<init>()" + this.getRenterID());
+//         Users.add();
+//         Renters.add();
+         //System.out.println("Renter Const-->>" + getUserByID(this.getRenterID()).getUserName());
     }
     public void setRenterID(String RenterID){
         this.RenterID = RenterID;
@@ -70,7 +75,20 @@ public class Renter extends User {
             }
         }
         return null;
+        
     }
+     public static Renter getUserByUserName(String UserName)
+     {
+         for (Renter e : Renters){
+            if(e.getUserName().equals(UserName)){
+                int index = Renters.indexOf(e);
+                        System.out.println("User with UserName: "+ UserName + "Found!");
+                return Renters.get(index);
+            }
+        }
+          System.out.println("User with UserName: "+ UserName + " WAS NOT Found!");
+        return null;
+     }
     
      public ArrayList<Renter> getAllUsers(){
          if(Renters.isEmpty()) { System.out.println("Empty List");return null;}
@@ -106,25 +124,47 @@ public class Renter extends User {
         }
         System.out.println("houserental.Renter.readBin()");
     }
+    
     @Override
     public void login(String username, String Password){
         readBin(); //reading the ArrayList of Renters
-        for(int i = 0; i < Renters.size(); i++){
-            if(Renters.get(i).getUserName().equals(username) && Renters.get(i).getPassword().equals(Password)){
+       if(Renters!=null){
+        for(Renter e: Renters)
+        {
+            System.out.println(e.getRenterID() + " + " + e.getUserName());
+            if(e.getUserName().equals(username) && e.getPassword().equals(Password))
+            {
                 System.out.println("logged in");
             }
         }
+       }
     }
+
+    
+    
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
         for(int i = 0; i < Renters.size(); i++){
             if(Renters.get(i).getUserName().equals(newuserName) || Renters.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
                 System.out.println("account already exists");
-                return;
+               // return;
             }
         }
+        System.out.println("******");
         Renters.add(new Renter(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }   
+    public void signUp(Renter renter){
+        readBin();
+        for(Renter r :Renters){
+            if(r.getRenterID().equals(renter.getRenterID()))
+            {
+                System.out.println("User Already exists!");
+            }
+            
+        }
+        Renters.add(renter);
+        writeBin();
+    }
 }
