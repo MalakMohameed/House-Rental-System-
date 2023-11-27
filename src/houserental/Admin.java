@@ -6,10 +6,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Admin extends User
+public class Admin extends User implements Serializable
 {
     
     private String AdminID;
@@ -32,7 +33,9 @@ public class Admin extends User
         int index = houseList.indexOf(houseID);
         return (House.Category) houseList.get(index).getCategory();
     }
-    
+    public String getAdminID(){
+        return this.AdminID;
+    }
     public void addCustomer(String RenterID){ /////Add Customer by ID ???
         
         Renter cutomer = new Renter();////Param?
@@ -72,19 +75,20 @@ public class Admin extends User
     @Override
     public void writeBin(){   //This writes the ArrayList of Admins for later
         try{
-        FileOutputStream i = new FileOutputStream("Admins.dat");
+        FileOutputStream i = new FileOutputStream("Admins.bin");
         ObjectOutputStream in = new ObjectOutputStream(i);
         in.writeObject(Admins);
         }catch (IOException e) {
             System.out.println(e);
     }
-   }
+            System.out.println("houserental.Admin.writeBin()");
+    }
 
     @Override
     public void readBin(){  //This reads the ArrayList of Admins
     
         try{
-        FileInputStream i = new FileInputStream("Admins.dat");
+        FileInputStream i = new FileInputStream("Admins.bin");
         ObjectInputStream in = new ObjectInputStream(i);
             try {
                 Admins = (ArrayList<Admin>) in.readObject();
@@ -113,5 +117,18 @@ public class Admin extends User
         }
         Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
-    }   
+    }
+
+    public void signUp(Admin admin){
+        readBin();
+        for(Admin r :Admins){
+            if(r.getAdminID().equals(r.getAdminID()))
+            {
+                System.out.println("User Already exists!");
+            }
+        }
+        System.out.println(admin.AdminID);
+        Admins.add(admin);
+        writeBin();
+    }
 }

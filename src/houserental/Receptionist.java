@@ -5,12 +5,13 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /////kakakakakakak
-public class Receptionist extends User{
+public class Receptionist extends User implements Serializable{
     
     private static int bookingCounter = 0;
     
@@ -147,23 +148,26 @@ public class Receptionist extends User{
           return this.bookingList;
       }
     
-    
-        @Override
-    public void writeBin(){   //This writes the ArrayList of Receptionists for later
+    /**
+     *
+     */
+    @Override
+    public void writeBin(){  //This reads the ArrayList of Admins
         try{
-        FileOutputStream i = new FileOutputStream("Receptionists.dat");
+        FileOutputStream i = new FileOutputStream("Receptionists.bin");
         ObjectOutputStream in = new ObjectOutputStream(i);
         in.writeObject(Receptionists);
         }catch (IOException e) {
             System.out.println(e);
     }
-   }
+            System.out.println("houserental.Receptionist.writeBin()");
+    }
 
     @Override
     public void readBin(){  //This reads the ArrayList of Receptionists
     
         try{
-        FileInputStream i = new FileInputStream("Receptionists.dat");
+        FileInputStream i = new FileInputStream("Receptionists.bin");
         ObjectInputStream in = new ObjectInputStream(i);
             try {
                 Receptionists = (ArrayList<Receptionist>) in.readObject();
@@ -191,6 +195,18 @@ public class Receptionist extends User{
             }
         }
         Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
+        writeBin();
+    }
+    public void signUp(Receptionist reception){
+        readBin();
+        for(Receptionist r :Receptionists){
+            if(r.getReceptionistID().equals(r.getReceptionistID()))
+            {
+                System.out.println("User Already exists!");
+            }
+            
+        }
+        Receptionists.add(reception);
         writeBin();
     }
 }

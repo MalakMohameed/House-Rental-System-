@@ -1,7 +1,3 @@
 //Edited
 package houserental;
-public enum UserType {
-    Admin,
-    Receptionist,
-    Renter;
-}
+public enum UserType {Admin,Receptionist,Renter;}

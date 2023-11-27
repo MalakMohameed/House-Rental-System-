@@ -23,12 +23,12 @@ public class HouseRental  {
     
     public static void mainMenu()
     {
-        System.out.println("========Welcome To the House Rental System========");
+
         System.out.println("1.Create Account");
         System.out.println("2.Login ");   
     }
     
-    public static void signUp(Scanner sc)
+    public static void signUp(Scanner sc,int user)
     {
         
         resetScreen();
@@ -53,13 +53,23 @@ public class HouseRental  {
             String UserName = sc.next();
             System.out.println("Now Create a Strong PassWord for your Account:");
             String usrPassword = sc.next();
-            
-            
-            Renter signUpUSR = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
-            //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
-            signUpUSR.signUp(signUpUSR);
-            System.out.println(signUpUSR.getUserName());
-            
+            switch(user){
+                case 1:
+                    Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
+//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    signUpUSR1.signUp(signUpUSR1);
+                    break;
+                case 2:
+                    Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, ReceptionistType);
+//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    signUpUSR2.signUp(signUpUSR2);
+                    break;
+                case 3:
+                    Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, AdminType);
+                  //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    System.out.println(FirstName + LastName + EmailAddr + phoneNO + userAge + UserName + usrPassword);
+                    signUpUSR3.signUp(signUpUSR3);
+            }
         }
     }
     public static void login(Scanner sc)
@@ -78,28 +88,36 @@ public class HouseRental  {
     
     public static void main(String[] args) {
         
-        
+        int menuChoice,user;   
         Scanner SCin = new Scanner(System.in);
-        
-        int menuChoice =0;
-        
-        mainMenu();
-        
-        menuChoice = SCin.nextInt();
-        
+        System.out.println("========Welcome To the House Rental System========");       
+        System.out.println("Logging in as\n1.Renter\n2.Receptionist\n3.Admin");
+        user = SCin.nextInt();       
+        switch(user){
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                mainMenu();
+                break;
+            case 3:
+                mainMenu();
+                break;
+        }
+        menuChoice = SCin.nextInt();  
         switch (menuChoice)
         {
             case 1:
-                signUp(SCin);
+                signUp(SCin,user);
                 break;
             case 2:
                 login(SCin);
                 break;
-            default :
+            default:
                 System.out.println("Invalid choice, Please Select from Above options");
         }
-        
-        
+
+            
       
     }
     
