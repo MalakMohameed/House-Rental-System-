@@ -70,7 +70,8 @@ public class HouseRental  {
         System.out.println("Enter your password: ");
         String usrPassword = sc.next();
         Renter renter = new Renter();///<-Problem is Here
-        renter = Renter.getUserByUserName(Username);
+        System.out.println("houserental.HouseRental.login()");
+        //renter = Renter.getUserByUserName(Username);
         System.out.println("Logging in using UserName -> " + renter.getUserName());
         renter.login(Username, usrPassword);
     }

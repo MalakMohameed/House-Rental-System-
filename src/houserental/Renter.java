@@ -66,7 +66,7 @@ public class Renter extends User implements Serializable{
     }
     
     
-     public User getUserByID(String RenterID){ ///Error Handling
+     public Renter getUserByID(String RenterID){ ///Error Handling
         
         for (Renter e : Renters){
             if(e.userID.equals(RenterID)){
@@ -80,7 +80,7 @@ public class Renter extends User implements Serializable{
      public static Renter getUserByUserName(String UserName)
      {
          for (Renter e : Renters){
-            if(e.getUserName().equals(UserName)){
+            if(e.userName.equals(UserName)){
                 int index = Renters.indexOf(e);
                         System.out.println("User with UserName: "+ UserName + "Found!");
                 return Renters.get(index);
@@ -100,7 +100,7 @@ public class Renter extends User implements Serializable{
         @Override
     public void writeBin(){   //This writes the ArrayList of Renters for later
         try{
-        FileOutputStream i = new FileOutputStream("Renters.dat");
+        FileOutputStream i = new FileOutputStream("Renters.bin");
         ObjectOutputStream in = new ObjectOutputStream(i);
         in.writeObject(Renters);
         }catch (IOException e) {
@@ -111,9 +111,9 @@ public class Renter extends User implements Serializable{
 
     @Override
     public void readBin(){  //This reads the ArrayList of Renters
-    
+        System.out.println("houserental.Renter.readBin()<----");
         try{
-        FileInputStream i = new FileInputStream("Renters.dat");
+        FileInputStream i = new FileInputStream("Renters.bin");
         ObjectInputStream in = new ObjectInputStream(i);
             try {
                 Renters = (ArrayList<Renter>) in.readObject();
@@ -123,6 +123,11 @@ public class Renter extends User implements Serializable{
             System.out.println(e);
         }
         System.out.println("houserental.Renter.readBin()");
+        for(int i =0; i< Renters.size(); i++)
+            
+        {
+            System.out.println("-->"+Renters.get(i).getRenterID());
+        }
     }
     
     @Override
@@ -131,14 +136,16 @@ public class Renter extends User implements Serializable{
        if(Renters!=null){
         for(Renter e: Renters)
         {
-            System.out.println(e.getRenterID() + " + " + e.getUserName());
-            if(e.getUserName().equals(username) && e.getPassword().equals(Password))
+            System.out.println("houserental.Renter.login()-->"+ e.getUserByID(e.getRenterID())+ "****");
+            if(e.userName.equals(username) && e.password.equals(Password))
             {
                 System.out.println("logged in");
             }
         }
        }
     }
+    
+    
 
     
     
@@ -146,7 +153,7 @@ public class Renter extends User implements Serializable{
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
         for(int i = 0; i < Renters.size(); i++){
-            if(Renters.get(i).getUserName().equals(newuserName) || Renters.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
+            if(Renters.get(i).userName.equals(newuserName) || Renters.get(i).password.equals(newpassword)){ //making sure that the account doesn't already exist
                 System.out.println("account already exists");
                // return;
             }

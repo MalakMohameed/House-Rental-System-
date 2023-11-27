@@ -3,7 +3,7 @@ package houserental;
 import java.util.ArrayList;
 import java.util.regex.*;
 
-abstract public class User{
+ abstract public class User{
 
    
     protected String firstName;
