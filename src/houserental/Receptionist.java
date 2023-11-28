@@ -20,7 +20,9 @@ public class Receptionist extends User implements Serializable{
     private ArrayList<House> houseList = new ArrayList<House>();
    
      
-     Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
+    public Receptionist(){}
+    
+    public Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
         //super = constructor to the user calss
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);; //1 here is the enum corresponding to renter in enum type   
         //Same Note as in Renter class regarding the use of super class constructor
@@ -177,13 +179,15 @@ public class Receptionist extends User implements Serializable{
             System.out.println(e);}
     }
     @Override
-    public void login(String username, String Password){
+    public boolean login(String username, String Password){
         readBin(); //reading the ArrayList of Receptionist
         for(int i = 0; i < Receptionists.size(); i++){
             if(Receptionists.get(i).getUserName().equals(username) && Receptionists.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
+                return true;
             }
         }
+        return false;
     }
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
@@ -197,7 +201,8 @@ public class Receptionist extends User implements Serializable{
         Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }
-    public void signUp(Receptionist reception){
+    @Override
+    public void signUp(){
         readBin();
         for(Receptionist r :Receptionists){
             if(r.getReceptionistID().equals(r.getReceptionistID()))

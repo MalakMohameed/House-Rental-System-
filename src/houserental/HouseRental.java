@@ -8,7 +8,7 @@ package houserental;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class HouseRental  { 
+public class HouseRental    { 
     
     
         static UserType renterType = UserType.Renter;
@@ -57,53 +57,81 @@ public class HouseRental  {
                 case 1:
                     Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
 //                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
-                    signUpUSR1.signUp(signUpUSR1);
+                    signUpUSR1.signUp();
+                    User.SerializeBinary();
+                   
                     break;
                 case 2:
                     Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, ReceptionistType);
 //                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
                     signUpUSR2.signUp(signUpUSR2);
+                    User.SerializeBinary();
                     break;
                 case 3:
                     Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, AdminType);
                   //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
                     System.out.println(FirstName + LastName + EmailAddr + phoneNO + userAge + UserName + usrPassword);
                     signUpUSR3.signUp(signUpUSR3);
+                    User.SerializeBinary();
             }
         }
     }
-    public static void login(Scanner sc)
+    public static void login(Scanner sc, int userTypeIndex)
     {
         System.out.println("========Welcome To the House Rental System========");
         System.out.println("Enter Username: ");
         String Username = sc.next();
         System.out.println("Enter your password: ");
         String usrPassword = sc.next();
-        Renter renter = new Renter();///<-Problem is Here
-        System.out.println("houserental.HouseRental.login()");
-        //renter = Renter.getUserByUserName(Username);
-        System.out.println("Logging in using UserName -> " + renter.getUserName());
-        renter.login(Username, usrPassword);
+       
+        ///
+        
+        switch (userTypeIndex)
+        {
+            case 3:
+                Admin adminUsr = new Admin();
+                if(adminUsr.login(Username, usrPassword))
+                {
+                    //Call Admin Screen Function
+                }
+                
+                break;
+            case 2:
+                
+                Receptionist receptionistUsr = new Receptionist();
+                if(receptionistUsr.login(Username, usrPassword))
+                {
+                    ///Call Receptionist Screen
+                }
+                
+                break;
+            case 1:
+                Renter renterUsr = new Renter();
+                if(renterUsr.login(Username, usrPassword)){
+                    //Call Renter Screen 
+                }
+                
+                break;
+                
+            default:
+                //error handle 
+                break;
+        }
+        
+        
     }
     
     public static void main(String[] args) {
+        
+        User.DeserializeBinary();
+        
         
         int menuChoice,user;   
         Scanner SCin = new Scanner(System.in);
         System.out.println("========Welcome To the House Rental System========");       
         System.out.println("Logging in as\n1.Renter\n2.Receptionist\n3.Admin");
         user = SCin.nextInt();       
-        switch(user){
-            case 1:
-                mainMenu();
-                break;
-            case 2:
-                mainMenu();
-                break;
-            case 3:
-                mainMenu();
-                break;
-        }
+        mainMenu();
         menuChoice = SCin.nextInt();  
         switch (menuChoice)
         {
@@ -111,7 +139,7 @@ public class HouseRental  {
                 signUp(SCin,user);
                 break;
             case 2:
-                login(SCin);
+                login(SCin,user );
                 break;
             default:
                 System.out.println("Invalid choice, Please Select from Above options");

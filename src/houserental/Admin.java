@@ -15,6 +15,7 @@ public class Admin extends User implements Serializable
     
     private String AdminID;
     
+    public Admin(){}
     
     public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);
@@ -98,13 +99,15 @@ public class Admin extends User implements Serializable
             System.out.println(e);}
     }
     @Override
-    public void login(String username, String Password){
+    public boolean login(String username, String Password){
         readBin(); //reading the ArrayList of Admins
         for(int i = 0; i < Admins.size(); i++){
             if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
+                return true;
             }
         }
+        return false;
     }
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){

@@ -1,9 +1,22 @@
 package houserental;
         
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.*;
 
- abstract public class User{
+ abstract public class User implements Serializable{
+
+    @Override
+    public String toString() {
+        return "User{" + "firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", email=" + email + ", phone=" + phone + ", userName=" + userName + ", password=" + password + ", type=" + type + ", userID=" + userID + ", userType=" + userType + '}';
+    }
 
    
     protected String firstName;
@@ -20,7 +33,8 @@ import java.util.regex.*;
     static protected ArrayList<User> Users = new ArrayList<User>();
     static protected ArrayList<Receptionist> Receptionists =new ArrayList<Receptionist>();   ///Moved From Receptionist Class and changed to static 
     static protected ArrayList<Admin> Admins = new ArrayList<Admin>();
-    static protected ArrayList<Renter> Renters = new ArrayList<Renter>();
+    static public ArrayList<Renter> Renters = new ArrayList<Renter>();
+    
     
     User(){}
     
@@ -33,9 +47,11 @@ import java.util.regex.*;
         this.userName = userName;
         this.password = password;
         this.type = type;
+        this.userID=generateUserId(firstName, lastName, age, type );
+        System.out.println("houserental.User.<init>()" + userName);
     }
     
-    public static String generateUserId(String FirstName, String LastName, int age, String phone, String email, Enum type) {
+    public static String generateUserId(String FirstName, String LastName, int age, Enum type) {
         // Extract initials from the first and last name
         System.out.println("houserental.User.generateUserId()");
         char firstInitial = FirstName.isEmpty() ? '?' : FirstName.charAt(0);
@@ -96,10 +112,97 @@ import java.util.regex.*;
         return age >= 18;
     } 
     
+    public static void SerializeBinary(){
+        
+         try{
+        FileOutputStream i = new FileOutputStream("Renters.dat");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+          System.out.println( Renters.toString());
+        in.writeObject(Renters);
+        in.close();
+        i.close();
+        }
+        catch (IOException e) {
+            System.out.println(e);
+    }
+            System.out.println("houserental.Renter.writeBin()");
+ 
+                    
+        
+        try{
+        FileOutputStream i = new FileOutputStream("Admins.dat");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+        in.writeObject(Admins);
+        }catch (IOException e) {
+            System.out.println(e);
+    }
+            System.out.println("houserental.Admin.writeBin()");
+        
+        
+        ////
+        try{
+        FileOutputStream i = new FileOutputStream("Receptionists.dat");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+        in.writeObject(Receptionists);
+        }catch (IOException e) {
+            System.out.println(e);
+    }
+            System.out.println("houserental.Receptionist.writeBin()");
+            
+    }
     
+    public static void DeserializeBinary(){
+        
+         System.out.println("houserental.Renter.readBin()<----");
+        try{
+        FileInputStream i = new FileInputStream("Renters.dat");
+        ObjectInputStream in = new ObjectInputStream(i);
+            try {
+                Renters = (ArrayList<Renter>) in.readObject();
+                in.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Renter.class.getName()).log(Level.SEVERE, null, ex);
+                in.close();
+            }
+        }catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println("houserental.Renter.readBin()");
+        System.out.println("houserental.Renter.readBin()" + Renters.size());
+        for(int i =0; i< Renters.size(); i++)
+        {
+            System.out.println("-->"+Renters.get(i).firstName);
+        }
+        
+        /////
+        
+        try{
+        FileInputStream i = new FileInputStream("Receptionists.dat");
+        ObjectInputStream in = new ObjectInputStream(i);
+            try {
+                Receptionists = (ArrayList<Receptionist>) in.readObject();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Receptionist.class.getName()).log(Level.SEVERE, null, ex);}
+        }catch (IOException e) {
+            System.out.println(e);}
+        
+        /////
+        try{
+        FileInputStream i = new FileInputStream("Admins.dat");
+        ObjectInputStream in = new ObjectInputStream(i);
+            try {
+                Admins = (ArrayList<Admin>) in.readObject();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);}
+        }catch (IOException e) {
+            System.out.println(e);}
+        
+       
+    }
     
     abstract protected void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID);
-    abstract protected void login(String username, String password);
+    abstract protected void signUp();
+    abstract protected boolean login(String username, String password);
     abstract protected void writeBin();
     abstract protected void readBin();
     // all users have unique ArrayLists making it impossible to generalize in this class so it will be overridden in each subclass
