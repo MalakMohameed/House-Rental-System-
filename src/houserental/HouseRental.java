@@ -8,13 +8,38 @@ package houserental;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class HouseRental  { 
+public class HouseRental{ 
     
     
         static UserType renterType = UserType.Renter;
         static UserType AdminType = UserType.Admin;
         static UserType ReceptionistType = UserType.Receptionist;
-    
+    public static void adminScreen(Scanner sc){
+        System.out.println("what would you like to do\n1. add a house\n2. remove a house\n3. view a house category\n4. add a customer\n5. remove a customer\n6. view all users ");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+        switch(choice){
+            case 1:
+                System.out.println("House added");
+
+            case 2:
+                System.out.println("house removed");
+
+            case 3:
+                System.out.println("house viewed");
+
+            case 4:
+                System.out.println("customer added");
+
+            case 5:
+                System.out.println("customer removed");
+
+            case 6:
+                System.out.println("users viewed");
+        }
+
+
+    }
     public static void resetScreen()
     {
         System.out.print("\033[H\033[2J");  
@@ -23,15 +48,75 @@ public class HouseRental  {
     
     public static void mainMenu()
     {
-        System.out.println("========Welcome To the House Rental System========");
+        
         System.out.println("1.Create Account");
         System.out.println("2.Login ");   
     }
-    
-    public static void signUp(Scanner sc)
+    public static void RenterMenu(Renter renter){
+        System.out.println("========Rneter Screen========");
+        System.out.println("What would you like to do?\n1.Rate an old experience\n2.View bookings history\n Enter:");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+         switch(choice){
+            case 1:
+                int rating = input.nextInt();
+                //instead of renter should be the users object
+                renter.rateRent(rating);
+                System.out.println("Thank you for your feedback :)!!");
+                break;
+            case 2:
+                //instead of renter should be the users object
+                renter.viewBookingHistory();
+                break;
+            default:
+                System.out.println("Invalid input.\n");
+        }
+    }
+    public static void ReceptionistMenu( Receptionist receptionist)
+    {
+
+        System.out.println( "========Receptionist screen========" );
+        System.out.println("what do you want to do?\n1.Create booking\n2.Cancel booking\n3.Calculate payment");
+        Scanner input = new Scanner(System.in);
+        int choice = input.nextInt();
+         switch(choice){
+            case 1:
+                House house = new House();
+                Renter renter = new Renter();
+                //Receptionist receptionist = new Receptionist();
+                house.getCategory();
+                System.out.println("what's your choice");
+                int catChoice =input.nextInt();
+                house.getView();
+                System.out.println("what's your choice");
+                int viewChoice =input.nextInt();
+                System.out.println("How many nights?");
+                int numOfNights=input.nextInt();
+                System.out.println("Date?");
+                String DateOfRental=input.next();
+                System.out.println("End of rental? ");
+                String EndOfRental=input.next();
+                 System.out.println("Number of Rooms? "); 
+                int NumberOfRooms=input.nextInt();
+               // Receptionist.createBooking(renter,house.getHouseID(),numOfNights,catChoice,viewChoice,DateOfRental,EndOfRental,NumberOfRooms);
+
+
+
+                break;
+            case 2:
+                //Booking booking= new Booking();
+                //Receptionist.cancelBooking(booking.getBookingID);
+                break;
+            case 3 :
+
+            default:
+                System.out.println("Invalid input.\n");
+    }
+    }
+    public static void signUp(Scanner sc, int user )
     {
         
-        resetScreen();
+         resetScreen();
         System.out.println("========Welcome To the House Rental System========");
         System.out.println("Enter First Name: ");
         String FirstName = sc.next();
@@ -53,53 +138,100 @@ public class HouseRental  {
             String UserName = sc.next();
             System.out.println("Now Create a Strong PassWord for your Account:");
             String usrPassword = sc.next();
-            
-            
-            Renter signUpUSR = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
-            //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
-            signUpUSR.signUp(signUpUSR);
-            System.out.println(signUpUSR.getUserName());
-            
+            switch(user){
+                case 1:
+                    Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
+//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    signUpUSR1.signUp();
+                    User.writeBin();
+                   
+                    break;
+                case 2:
+                    Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, ReceptionistType);
+//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    signUpUSR2.signUp();
+                    User.writeBin();
+                    break;
+                case 3:
+                    Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, AdminType);
+                  //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    System.out.println(FirstName + LastName + EmailAddr + phoneNO + userAge + UserName + usrPassword);
+                    signUpUSR3.signUp();
+                    User.writeBin();
+            }
         }
     }
-    public static void login(Scanner sc)
+    public static void login(Scanner sc,int userTypeIndex)
     {
         System.out.println("========Welcome To the House Rental System========");
         System.out.println("Enter Username: ");
         String Username = sc.next();
         System.out.println("Enter your password: ");
         String usrPassword = sc.next();
-        Renter renter = new Renter();///<-Problem is Here
-        System.out.println("houserental.HouseRental.login()");
-        //renter = Renter.getUserByUserName(Username);
-        System.out.println("Logging in using UserName -> " + renter.getUserName());
-        renter.login(Username, usrPassword);
-    }
-    
-    public static void main(String[] args) {
+        Scanner cin = new Scanner(System.in);
+        ///
         
-        
-        Scanner SCin = new Scanner(System.in);
-        
-        int menuChoice =0;
-        
-        mainMenu();
-        
-        menuChoice = SCin.nextInt();
-        
-        switch (menuChoice)
+        switch (userTypeIndex)
         {
-            case 1:
-                signUp(SCin);
+            case 3:
+                Admin adminUsr = new Admin();
+                if(adminUsr.login(Username, usrPassword))
+                {
+                    adminScreen(cin);
+                }
+                
                 break;
             case 2:
-                login(SCin);
+                
+                Receptionist receptionistUsr = new Receptionist();
+                if(receptionistUsr.login(Username, usrPassword))
+                {
+                    ReceptionistMenu(receptionistUsr);
+                }
+                
                 break;
-            default :
-                System.out.println("Invalid choice, Please Select from Above options");
+            case 1:
+                Renter renterUsr = new Renter();
+                if(renterUsr.login(Username, usrPassword)){
+                    RenterMenu(renterUsr);
+                }
+                
+                break;
+                
+            default:
+                //error handle 
+                break;
         }
         
         
+    }
+    
+    public static void main(String[] args) {
+        User.writeBin();
+        
+        User.readBin();
+        
+        
+        int menuChoice,user;   
+        Scanner SCin = new Scanner(System.in);
+        System.out.println("========Welcome To the House Rental System========");       
+        System.out.println("Logging in as\n1.Renter\n2.Receptionist\n3.Admin");
+        user = SCin.nextInt();       
+        mainMenu();
+        menuChoice = SCin.nextInt();  
+        switch (menuChoice)
+        {
+            case 1:
+                signUp(SCin,user);
+                break;
+            case 2:
+                login(SCin,user );
+                break;
+            default:
+                System.out.println("Invalid choice, Please Select from Above options");
+        }
+
+            
       
     }
     

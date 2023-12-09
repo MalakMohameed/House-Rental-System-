@@ -13,7 +13,7 @@ public class Admin extends User
 {
     
     private String AdminID;
-    
+    public Admin(){};
     
     public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);
@@ -69,39 +69,19 @@ public class Admin extends User
     
     
     ////User Class Methods Overriding
-    @Override
-    public void writeBin(){   //This writes the ArrayList of Admins for later
-        try{
-        FileOutputStream i = new FileOutputStream("Admins.dat");
-        ObjectOutputStream in = new ObjectOutputStream(i);
-        in.writeObject(Admins);
-        }catch (IOException e) {
-            System.out.println(e);
-    }
-   }
 
     @Override
-    public void readBin(){  //This reads the ArrayList of Admins
-    
-        try{
-        FileInputStream i = new FileInputStream("Admins.dat");
-        ObjectInputStream in = new ObjectInputStream(i);
-            try {
-                Admins = (ArrayList<Admin>) in.readObject();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);}
-        }catch (IOException e) {
-            System.out.println(e);}
-    }
-    @Override
-    public void login(String username, String Password){
+    public boolean login(String username, String Password){
         readBin(); //reading the ArrayList of Admins
         for(int i = 0; i < Admins.size(); i++){
             if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
+                return true;
             }
         }
+        return false;
     }
+
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
         readBin();
@@ -114,4 +94,16 @@ public class Admin extends User
         Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }   
+    public void signUp(){
+        readBin();
+        for(Admin r :Admins){
+            if(r.AdminID.equals(AdminID))
+            {
+                System.out.println("User Already exists!");
+            }
+            
+        }
+        Admins.add(this);
+        writeBin();
+    }
 }

@@ -18,7 +18,7 @@ public class Receptionist extends User{
     private ArrayList<Booking> bookingList = new ArrayList<Booking>();
     private ArrayList<House> houseList = new ArrayList<House>();
    
-     
+    Receptionist(){};  
      Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
         //super = constructor to the user calss
         super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);; //1 here is the enum corresponding to renter in enum type   
@@ -147,39 +147,16 @@ public class Receptionist extends User{
           return this.bookingList;
       }
     
-    
-        @Override
-    public void writeBin(){   //This writes the ArrayList of Receptionists for later
-        try{
-        FileOutputStream i = new FileOutputStream("Receptionists.dat");
-        ObjectOutputStream in = new ObjectOutputStream(i);
-        in.writeObject(Receptionists);
-        }catch (IOException e) {
-            System.out.println(e);
-    }
-   }
-
     @Override
-    public void readBin(){  //This reads the ArrayList of Receptionists
-    
-        try{
-        FileInputStream i = new FileInputStream("Receptionists.dat");
-        ObjectInputStream in = new ObjectInputStream(i);
-            try {
-                Receptionists = (ArrayList<Receptionist>) in.readObject();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Receptionist.class.getName()).log(Level.SEVERE, null, ex);}
-        }catch (IOException e) {
-            System.out.println(e);}
-    }
-    @Override
-    public void login(String username, String Password){
+    public boolean login(String username, String Password){
         readBin(); //reading the ArrayList of Receptionist
         for(int i = 0; i < Receptionists.size(); i++){
             if(Receptionists.get(i).getUserName().equals(username) && Receptionists.get(i).getPassword().equals(Password)){
                 System.out.println("logged in");
+                return true;
             }
         }
+        return false;
     }
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
@@ -191,6 +168,18 @@ public class Receptionist extends User{
             }
         }
         Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
+        writeBin();
+    }
+        public void signUp(){
+        readBin();
+        for(Receptionist r :Receptionists){
+            if(r.getReceptionistID().equals(getReceptionistID()))
+            {
+                System.out.println("User Already exists!");
+            }
+            
+        }
+        Receptionists.add(this);
         writeBin();
     }
 }

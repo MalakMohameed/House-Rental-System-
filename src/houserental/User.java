@@ -1,9 +1,18 @@
 package houserental;
         
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.*;
 
- abstract public class User{
+ abstract public class User implements Serializable{
 
    
     protected String firstName;
@@ -97,13 +106,53 @@ import java.util.regex.*;
     
     
     abstract protected void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID);
-    abstract protected void login(String username, String password);
-    abstract protected void writeBin();
-    abstract protected void readBin();
+    abstract protected boolean login(String username, String password);
+    static protected void writeBin(){
+         try {
+            FileOutputStream renterOut = new FileOutputStream("Renters.bin");
+            ObjectOutputStream renterOutOS  = new ObjectOutputStream(renterOut);
+            renterOutOS.writeObject(Renters);
+            FileOutputStream receptionistOut = new FileOutputStream("Receptionists.dat");
+            ObjectOutputStream receptionistOutOS = new ObjectOutputStream(receptionistOut);
+            receptionistOutOS.writeObject(Receptionists);
+            receptionistOutOS.writeObject(Renters);
+            FileOutputStream adminOut = new FileOutputStream("Admins.dat");
+            ObjectOutputStream adminOutOS = new ObjectOutputStream(adminOut);
+            adminOutOS.writeObject(Admins);
+         }
+         catch (IOException e){
+             System.out.println(e);
+         }
+    }
+    static protected void readBin(){
+        //System.out.println("houserental.Renter.readBin()<----");
+        try{
+        FileInputStream renterIn = new FileInputStream("Renters.bin");
+        ObjectInputStream renterInOs = new ObjectInputStream(renterIn);
+        FileInputStream receptionistIn = new FileInputStream("Receptionists.dat");
+        ObjectInputStream receptionistInOs = new ObjectInputStream(receptionistIn);
+        FileInputStream adminIn = new FileInputStream("Admins.dat");
+        ObjectInputStream adminInOs = new ObjectInputStream(adminIn);
+            try {
+                Renters = (ArrayList<Renter>) renterInOs.readObject();
+                Receptionists = (ArrayList<Receptionist>) receptionistInOs.readObject();
+                Admins = (ArrayList<Admin>) adminInOs.readObject();
+
+            } catch (ClassNotFoundException ex) {
+               
+                
+        }catch (IOException e) {
+            System.out.println(e);
+        }
+
+
+    }   catch (IOException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     // all users have unique ArrayLists making it impossible to generalize in this class so it will be overridden in each subclass
-    
-    
-     public String getFirstName() {
+
+    public String getFirstName(){
         return firstName;
     }
 

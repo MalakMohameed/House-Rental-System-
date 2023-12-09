@@ -97,41 +97,11 @@ public class Renter extends User implements Serializable{
          }
      }
      
-        @Override
-    public void writeBin(){   //This writes the ArrayList of Renters for later
-        try{
-        FileOutputStream i = new FileOutputStream("Renters.bin");
-        ObjectOutputStream in = new ObjectOutputStream(i);
-        in.writeObject(Renters);
-        }catch (IOException e) {
-            System.out.println(e);
-    }
-            System.out.println("houserental.Renter.writeBin()");
-   }
+ 
 
-    @Override
-    public void readBin(){  //This reads the ArrayList of Renters
-        System.out.println("houserental.Renter.readBin()<----");
-        try{
-        FileInputStream i = new FileInputStream("Renters.bin");
-        ObjectInputStream in = new ObjectInputStream(i);
-            try {
-                Renters = (ArrayList<Renter>) in.readObject();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Renter.class.getName()).log(Level.SEVERE, null, ex);}
-        }catch (IOException e) {
-            System.out.println(e);
-        }
-        System.out.println("houserental.Renter.readBin()");
-        for(int i =0; i< Renters.size(); i++)
-            
-        {
-            System.out.println("-->"+Renters.get(i).getRenterID());
-        }
-    }
     
     @Override
-    public void login(String username, String Password){
+    public boolean login(String username, String Password){
         readBin(); //reading the ArrayList of Renters
        if(Renters!=null){
         for(Renter e: Renters)
@@ -140,9 +110,11 @@ public class Renter extends User implements Serializable{
             if(e.userName.equals(username) && e.password.equals(Password))
             {
                 System.out.println("logged in");
+                return true;
             }
+        }    
         }
-       }
+       return false;
     }
     
     
@@ -162,16 +134,16 @@ public class Renter extends User implements Serializable{
         Renters.add(new Renter(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
     }   
-    public void signUp(Renter renter){
+    public void signUp(){
         readBin();
         for(Renter r :Renters){
-            if(r.getRenterID().equals(renter.getRenterID()))
+            if(r.getRenterID().equals(getRenterID()))
             {
                 System.out.println("User Already exists!");
             }
             
         }
-        Renters.add(renter);
+        Renters.add(this);
         writeBin();
     }
 }
