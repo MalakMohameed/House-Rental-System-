@@ -101,7 +101,9 @@ import java.util.regex.*;
 
         return matcher.matches();
     }
-     
+    public boolean isValidAge(int age){
+        return age >= 18;
+    } 
     
     
     

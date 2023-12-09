@@ -15,8 +15,7 @@ import java.util.logging.Logger;
 
 public class Renter extends User implements Serializable{
     private String RenterID;
-    private int numberOfBooking;
-    
+    private int numberOfBooking; 
     private List<House> houseList = new ArrayList<House>();
     
     Renter(){}
@@ -97,7 +96,21 @@ public class Renter extends User implements Serializable{
          }
      }
      
+<<<<<<< HEAD
  
+=======
+        @Override
+    public void writeBin(){   //This writes the ArrayList of Renters for later
+        try{
+        FileOutputStream i = new FileOutputStream("Renters.bin");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+        in.writeObject(Renters);
+        }catch (IOException e) {
+            System.out.println(e);
+    }
+            System.out.println("houserental.Renter.writeBin()");
+    }
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
 
     
     @Override
@@ -116,10 +129,6 @@ public class Renter extends User implements Serializable{
         }
        return false;
     }
-    
-    
-
-    
     
     @Override
     public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
@@ -140,8 +149,7 @@ public class Renter extends User implements Serializable{
             if(r.getRenterID().equals(getRenterID()))
             {
                 System.out.println("User Already exists!");
-            }
-            
+            }       
         }
         Renters.add(this);
         writeBin();

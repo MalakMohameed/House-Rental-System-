@@ -48,6 +48,7 @@ public class HouseRental{
     
     public static void mainMenu()
     {
+<<<<<<< HEAD
         
         System.out.println("1.Create Account");
         System.out.println("2.Login ");   
@@ -114,6 +115,14 @@ public class HouseRental{
     }
     }
     public static void signUp(Scanner sc, int user )
+=======
+
+        System.out.println("1.Create Account");
+        System.out.println("2.Login ");   
+    }
+    
+    public static void signUp(Scanner sc,int user)
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
     {
         
          resetScreen();
@@ -142,22 +151,34 @@ public class HouseRental{
                 case 1:
                     Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
 //                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+<<<<<<< HEAD
                     signUpUSR1.signUp();
                     User.writeBin();
                    
+=======
+                    signUpUSR1.signUp(signUpUSR1);
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
                     break;
                 case 2:
                     Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, ReceptionistType);
 //                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+<<<<<<< HEAD
                     signUpUSR2.signUp();
                     User.writeBin();
+=======
+                    signUpUSR2.signUp(signUpUSR2);
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
                     break;
                 case 3:
                     Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, AdminType);
                   //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
                     System.out.println(FirstName + LastName + EmailAddr + phoneNO + userAge + UserName + usrPassword);
+<<<<<<< HEAD
                     signUpUSR3.signUp();
                     User.writeBin();
+=======
+                    signUpUSR3.signUp(signUpUSR3);
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
             }
         }
     }
@@ -171,6 +192,7 @@ public class HouseRental{
         Scanner cin = new Scanner(System.in);
         ///
         
+<<<<<<< HEAD
         switch (userTypeIndex)
         {
             case 3:
@@ -180,6 +202,29 @@ public class HouseRental{
                     adminScreen(cin);
                 }
                 
+=======
+        int menuChoice,user;   
+        Scanner SCin = new Scanner(System.in);
+        System.out.println("========Welcome To the House Rental System========");       
+        System.out.println("Logging in as\n1.Renter\n2.Receptionist\n3.Admin");
+        user = SCin.nextInt();       
+        switch(user){
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                mainMenu();
+                break;
+            case 3:
+                mainMenu();
+                break;
+        }
+        menuChoice = SCin.nextInt();  
+        switch (menuChoice)
+        {
+            case 1:
+                signUp(SCin,user);
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
                 break;
             case 2:
                 
@@ -201,6 +246,7 @@ public class HouseRental{
             default:
                 //error handle 
                 break;
+<<<<<<< HEAD
         }
         
         
@@ -230,6 +276,11 @@ public class HouseRental{
             default:
                 System.out.println("Invalid choice, Please Select from Above options");
         }
+=======
+            default:
+                System.out.println("Invalid choice, Please Select from Above options");
+        }
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
 
             
       

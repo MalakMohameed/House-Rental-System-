@@ -6,10 +6,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Admin extends User
+public class Admin extends User implements Serializable
 {
     
     private String AdminID;
@@ -32,7 +33,9 @@ public class Admin extends User
         int index = houseList.indexOf(houseID);
         return (House.Category) houseList.get(index).getCategory();
     }
-    
+    public String getAdminID(){
+        return this.AdminID;
+    }
     public void addCustomer(String RenterID){ /////Add Customer by ID ???
         
         Renter cutomer = new Renter();////Param?
@@ -69,9 +72,39 @@ public class Admin extends User
     
     
     ////User Class Methods Overriding
+<<<<<<< HEAD
 
     @Override
     public boolean login(String username, String Password){
+=======
+    @Override
+    public void writeBin(){   //This writes the ArrayList of Admins for later
+        try{
+        FileOutputStream i = new FileOutputStream("Admins.bin");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+        in.writeObject(Admins);
+        }catch (IOException e) {
+            System.out.println(e);
+    }
+            System.out.println("houserental.Admin.writeBin()");
+    }
+
+    @Override
+    public void readBin(){  //This reads the ArrayList of Admins
+    
+        try{
+        FileInputStream i = new FileInputStream("Admins.bin");
+        ObjectInputStream in = new ObjectInputStream(i);
+            try {
+                Admins = (ArrayList<Admin>) in.readObject();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);}
+        }catch (IOException e) {
+            System.out.println(e);}
+    }
+    @Override
+    public void login(String username, String Password){
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
         readBin(); //reading the ArrayList of Admins
         for(int i = 0; i < Admins.size(); i++){
             if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
@@ -93,6 +126,7 @@ public class Admin extends User
         }
         Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
         writeBin();
+<<<<<<< HEAD
     }   
     public void signUp(){
         readBin();
@@ -104,6 +138,20 @@ public class Admin extends User
             
         }
         Admins.add(this);
+=======
+    }
+
+    public void signUp(Admin admin){
+        readBin();
+        for(Admin r :Admins){
+            if(r.getAdminID().equals(r.getAdminID()))
+            {
+                System.out.println("User Already exists!");
+            }
+        }
+        System.out.println(admin.AdminID);
+        Admins.add(admin);
+>>>>>>> 57805290eda2d072a87beea37e473715098ad7d2
         writeBin();
     }
 }
