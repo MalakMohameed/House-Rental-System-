@@ -11,10 +11,6 @@ import java.util.Scanner;
 public class HouseRental    { 
     
     
-        static UserType renterType = UserType.Renter;
-        static UserType AdminType = UserType.Admin;
-        static UserType ReceptionistType = UserType.Receptionist;
-    
     public static void resetScreen()
     {
         System.out.print("\033[H\033[2J");  
@@ -30,9 +26,7 @@ public class HouseRental    {
     
     public static void signUp(Scanner sc,int user)
     {
-        
         resetScreen();
-        System.out.println("========Welcome To the House Rental System========");
         System.out.println("Enter First Name: ");
         String FirstName = sc.next();
         System.out.println("Enter Last Name: ");
@@ -55,43 +49,37 @@ public class HouseRental    {
             String usrPassword = sc.next();
             switch(user){
                 case 1:
-                    Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, renterType);
-//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
+                    Renter signUpUSR1 = new Renter(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword);
                     signUpUSR1.signUp();
                     User.SerializeBinary();
                    
                     break;
                 case 2:
-                    Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, ReceptionistType);
-//                  signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
-                    signUpUSR2.signUp(signUpUSR2);
+                    Receptionist signUpUSR2 = new Receptionist(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword);
+                    signUpUSR2.signUp();
                     User.SerializeBinary();
                     break;
                 case 3:
-                    Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword, AdminType);
-                  //signUpUSR.signUp(FirstName, LastName, UserName, phoneNO, userAge, UserName, usrPassword, signUpUSR.getUserID());
-                    System.out.println(FirstName + LastName + EmailAddr + phoneNO + userAge + UserName + usrPassword);
-                    signUpUSR3.signUp(signUpUSR3);
+                    Admin signUpUSR3 = new Admin(FirstName, LastName, EmailAddr, phoneNO,userAge, UserName, usrPassword);
+                    signUpUSR3.signUp();
                     User.SerializeBinary();
             }
         }
     }
     public static void login(Scanner sc, int userTypeIndex)
     {
-        System.out.println("========Welcome To the House Rental System========");
         System.out.println("Enter Username: ");
         String Username = sc.next();
         System.out.println("Enter your password: ");
         String usrPassword = sc.next();
-       
         ///
-        
         switch (userTypeIndex)
         {
             case 3:
                 Admin adminUsr = new Admin();
                 if(adminUsr.login(Username, usrPassword))
                 {
+                    System.out.println("logged in as admin");
                     //Call Admin Screen Function
                 }
                 
@@ -101,16 +89,18 @@ public class HouseRental    {
                 Receptionist receptionistUsr = new Receptionist();
                 if(receptionistUsr.login(Username, usrPassword))
                 {
+                    System.out.println("logged in as receptionist");
                     ///Call Receptionist Screen
                 }
                 
                 break;
             case 1:
                 Renter renterUsr = new Renter();
-                if(renterUsr.login(Username, usrPassword)){
+                if(renterUsr.login(Username, usrPassword))
+                {               
+                    System.out.println("logged in as renter");
                     //Call Renter Screen 
                 }
-                
                 break;
                 
             default:
@@ -124,15 +114,13 @@ public class HouseRental    {
     public static void main(String[] args) {
         
         User.DeserializeBinary();
-        
-        
         int menuChoice,user;   
         Scanner SCin = new Scanner(System.in);
         System.out.println("========Welcome To the House Rental System========");       
         System.out.println("Logging in as\n1.Renter\n2.Receptionist\n3.Admin");
         user = SCin.nextInt();       
         mainMenu();
-        menuChoice = SCin.nextInt();  
+        menuChoice = SCin.nextInt();
         switch (menuChoice)
         {
             case 1:
@@ -144,11 +132,7 @@ public class HouseRental    {
             default:
                 System.out.println("Invalid choice, Please Select from Above options");
         }
-
-            
-      
     }
-    
 }
 
 

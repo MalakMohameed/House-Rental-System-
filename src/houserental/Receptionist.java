@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 public class Receptionist extends User implements Serializable{
     
     private static int bookingCounter = 0;
-    
     private String ReceptionistID;
     private ArrayList<Booking> bookingList = new ArrayList<Booking>();
     private ArrayList<House> houseList = new ArrayList<House>();
@@ -22,9 +21,9 @@ public class Receptionist extends User implements Serializable{
      
     public Receptionist(){}
     
-    public Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){
+    public Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){
         //super = constructor to the user calss
-        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);; //1 here is the enum corresponding to renter in enum type   
+        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword);; //1 here is the enum corresponding to renter in enum type   
         //Same Note as in Renter class regarding the use of super class constructor
      }
      
@@ -130,9 +129,7 @@ public class Receptionist extends User implements Serializable{
             return 0.0; 
         }
     }
-    
-      
-    
+
       public Receptionist getUserByID(String UserID){ ///Error Handling
         
         for (Receptionist e : Receptionists){
@@ -153,57 +150,23 @@ public class Receptionist extends User implements Serializable{
     /**
      *
      */
-    @Override
-    public void writeBin(){  //This reads the ArrayList of Admins
-        try{
-        FileOutputStream i = new FileOutputStream("Receptionists.bin");
-        ObjectOutputStream in = new ObjectOutputStream(i);
-        in.writeObject(Receptionists);
-        }catch (IOException e) {
-            System.out.println(e);
-    }
-            System.out.println("houserental.Receptionist.writeBin()");
-    }
 
     @Override
-    public void readBin(){  //This reads the ArrayList of Receptionists
-    
-        try{
-        FileInputStream i = new FileInputStream("Receptionists.bin");
-        ObjectInputStream in = new ObjectInputStream(i);
-            try {
-                Receptionists = (ArrayList<Receptionist>) in.readObject();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Receptionist.class.getName()).log(Level.SEVERE, null, ex);}
-        }catch (IOException e) {
-            System.out.println(e);}
-    }
-    @Override
     public boolean login(String username, String Password){
-        readBin(); //reading the ArrayList of Receptionist
-        for(int i = 0; i < Receptionists.size(); i++){
-            if(Receptionists.get(i).getUserName().equals(username) && Receptionists.get(i).getPassword().equals(Password)){
-                System.out.println("logged in");
+        if(Receptionists!=null){
+                  for(Receptionist e: Receptionists){
+            if(e.userName.equals(username) && e.password.equals(Password)){
                 return true;
             }
         }
+            return false;
+        }
         return false;
     }
-    @Override
-    public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
-        readBin();
-        for(int i = 0; i < Receptionists.size(); i++){
-            if(Receptionists.get(i).getUserName().equals(newuserName) || Receptionists.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
-                System.out.println("account already exists");
-                return;
-            }
-        }
-        Receptionists.add(new Receptionist(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
-        writeBin();
-    }
+
     @Override
     public void signUp(){
-        readBin();
+        //readBin();
         for(Receptionist r :Receptionists){
             if(r.getReceptionistID().equals(r.getReceptionistID()))
             {
@@ -211,7 +174,7 @@ public class Receptionist extends User implements Serializable{
             }
             
         }
-        Receptionists.add(reception);
-        writeBin();
+        Receptionists.add(this);
+        //writeBin();
     }
 }

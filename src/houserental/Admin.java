@@ -12,13 +12,12 @@ import java.util.logging.Logger;
 
 public class Admin extends User implements Serializable
 {
-    
-    private String AdminID;
+
     
     public Admin(){}
     
-    public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, UserType type){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
-        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword,type);
+    public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
+        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword);
     }
     
     public void addHouse(House obj,ArrayList<House> houseList){
@@ -34,17 +33,7 @@ public class Admin extends User implements Serializable
         int index = houseList.indexOf(houseID);
         return (House.Category) houseList.get(index).getCategory();
     }
-    public String getAdminID(){
-        return this.AdminID;
-    }
-    public void addCustomer(String RenterID){ /////Add Customer by ID ???
-        
-        Renter cutomer = new Renter();////Param?
-        
-    }
-    
-    
-    
+
     public ArrayList<Booking> viewBookingPerReceptionist(String ReceptionistID){
         
         Receptionist receptionist = null;
@@ -62,76 +51,43 @@ public class Admin extends User implements Serializable
         }
         return null;
     }
-   public void removeCustumer(User obj){
-           Users.remove(obj);
-           obj=null;
+   public void removeCustumer(Renter obj){
+        Renters.remove(obj);
+        obj=null;
              
    }
-   public void addCustomer (User obj){
-       Users.add(obj);
+   public void addCustomer (Renter obj){
+       Renters.add(obj);
    }
     
-    
-    ////User Class Methods Overriding
-    @Override
-    public void writeBin(){   //This writes the ArrayList of Admins for later
-        try{
-        FileOutputStream i = new FileOutputStream("Admins.bin");
-        ObjectOutputStream in = new ObjectOutputStream(i);
-        in.writeObject(Admins);
-        }catch (IOException e) {
-            System.out.println(e);
-    }
-            System.out.println("houserental.Admin.writeBin()");
-    }
 
     @Override
-    public void readBin(){  //This reads the ArrayList of Admins
-    
-        try{
-        FileInputStream i = new FileInputStream("Admins.bin");
-        ObjectInputStream in = new ObjectInputStream(i);
-            try {
-                Admins = (ArrayList<Admin>) in.readObject();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);}
-        }catch (IOException e) {
-            System.out.println(e);}
-    }
-    @Override
     public boolean login(String username, String Password){
-        readBin(); //reading the ArrayList of Admins
-        for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).getUserName().equals(username) && Admins.get(i).getPassword().equals(Password)){
-                System.out.println("logged in");
+        if(Admins!=null){
+        for(Admin e: Admins)
+        {
+            if(e.userName.equals(username) && e.password.equals(Password))
+            {
                 return true;
             }
         }
-        return false;
-    }
-    @Override
-    public void signUp(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword, String userID){
-        readBin();
-        for(int i = 0; i < Admins.size(); i++){
-            if(Admins.get(i).getUserName().equals(newuserName) || Admins.get(i).getPassword().equals(newpassword)){ //making sure that the account doesn't already exist
-                System.out.println("account already exists");
-                return;
-            }
-        }
-        Admins.add(new Admin(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword, getType())); //creating new account and adding it to the ArrayList
-        writeBin();
+               return false;
+       }
+              return false;
     }
 
-    public void signUp(Admin admin){
-        readBin();
-        for(Admin r :Admins){
-            if(r.getAdminID().equals(r.getAdminID()))
-            {
-                System.out.println("User Already exists!");
-            }
-        }
-        System.out.println(admin.AdminID);
-        Admins.add(admin);
-        writeBin();
+    @Override
+    public void signUp(){
+//        for(Admin r :Admins){
+//            if(r.AdminID().equals(r.AdminID()))
+//            {
+//                System.out.println("User Already exists!");
+//            }
+//            
+//        }
+        Admins.add(this);
+
     }
+
+
 }
