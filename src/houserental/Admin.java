@@ -1,5 +1,4 @@
 package houserental;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.io.FileOutputStream;
@@ -12,8 +11,6 @@ import java.util.logging.Logger;
 
 public class Admin extends User implements Serializable
 {
-
-    
     public Admin(){}
     
     public Admin(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){ //i am adding temporary paremeters for my signup functions feel free to change but take signup into consideration if possible
@@ -21,17 +18,18 @@ public class Admin extends User implements Serializable
     }
     
     public void addHouse(House obj,ArrayList<House> houseList){
+        
        houseList.add(obj);
     }
     
     public void removeHouse(String houseID, ArrayList<House> houseList){
-        houseList.removeIf(house->house.getHouseID().equals(houseID));
         
+        houseList.removeIf(house->house.getHouseID().equals(houseID));
     }
-    public House.Category viewHouseCategory(String houseID, ArrayList<House> houseList){
+    public Category viewHouseCategory(String houseID, ArrayList<House> houseList){
         
         int index = houseList.indexOf(houseID);
-        return (House.Category) houseList.get(index).getCategory();
+        return houseList.get(index).getCategory();
     }
 
     public ArrayList<Booking> viewBookingPerReceptionist(String ReceptionistID){
@@ -86,8 +84,5 @@ public class Admin extends User implements Serializable
 //            
 //        }
         Admins.add(this);
-
     }
-
-
 }

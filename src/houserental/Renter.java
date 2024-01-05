@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 
 public class Renter extends User implements Serializable{
-    private String RenterID;
     private int numberOfBooking; 
     private List<House> houseList = new ArrayList<House>();
    
@@ -30,11 +29,11 @@ public class Renter extends User implements Serializable{
         // System.out.println("Renter Const-->>" + getUserByID(this.getRenterID()).getUserName());
     }
     public void setRenterID(String RenterID){
-        this.RenterID = RenterID;
+        this.userID = RenterID;
     }
     
     public String getRenterID(){
-        return this.RenterID;
+        return this.userID;
     }
     
 //    public void rateRent(int Rate){ ////Change this to have an enum of Rating and basically refactor into cleaner code.

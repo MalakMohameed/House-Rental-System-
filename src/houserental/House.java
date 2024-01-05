@@ -5,18 +5,10 @@ import java.util.Date;
 ////Split enums and classes to seperate files Category.java , View.java and Location.java....Refer to UML 
 public class House implements Serializable {
 
- public enum Category{
-        
-        apartment, house, villa, penthouse, cottage, mansion, duplex, farmHouse, split_level
-    }
-    
-    public enum View{
-        mountain, garden, rooftop, pool, beach, pond, plain, farm, city
-    }
-    
+
     //calss object variables
-    private Enum category; 
-    private Enum view;
+    private Category category; 
+    private View view;
     private int numberOfRentals;
     private String houseID;
     private boolean rented;
@@ -35,7 +27,7 @@ public class House implements Serializable {
         //Default Constructior
     }
 
-    public House(Enum category, Enum view, int numberOfRentals, String houseID, boolean rented, Date dateOfRental, Date endOfRental, int numberOfBedrooms, int numberOfBathrooms, String Description, int costPerNight, int Rate) {
+    public House(Category category, View view, int numberOfRentals, String houseID, boolean rented, Date dateOfRental, Date endOfRental, int numberOfBedrooms, int numberOfBathrooms, String Description, int costPerNight, int Rate) {
         this.category = category;
         this.view = view;
         this.numberOfRentals = numberOfRentals;
@@ -50,19 +42,19 @@ public class House implements Serializable {
         this.Rate = Rate;
     }
 
-    public Enum getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Enum category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public Enum getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(Enum view) {
+    public void setView(View view) {
         this.view = view;
     }
 

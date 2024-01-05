@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 public class Receptionist extends User implements Serializable{
     
     private static int bookingCounter = 0;
-    private String ReceptionistID;
     private ArrayList<Booking> bookingList = new ArrayList<Booking>();
     private ArrayList<House> houseList = new ArrayList<House>();
    
@@ -23,16 +22,16 @@ public class Receptionist extends User implements Serializable{
     
     public Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){
         //super = constructor to the user calss
-        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword);; //1 here is the enum corresponding to renter in enum type   
+        super(newfirstName,newlastName, newemail,newphone, age,newuserName,newpassword);
         //Same Note as in Renter class regarding the use of super class constructor
      }
      
     public void setReceptionistID(String ReceptionistID){
-        this.ReceptionistID = ReceptionistID;
+        this.userID = ReceptionistID;
     }
     
     public String getReceptionistID(){
-        return this.ReceptionistID;
+        return this.userID;
     }
     
       
@@ -99,9 +98,9 @@ public class Receptionist extends User implements Serializable{
        }
     }
     
-    public void selecteHouseCategoty(Enum Category){
+    public void selecteHouseCategoty(Category category){
         House newHouse = new House(); //no defualt constructor //Added Default Constructor
-        newHouse.setCategory(Category); //changed line to use setters 
+        newHouse.setCategory(category); //changed line to use setters 
     }
     
    public void cancelBooking(String bookingID) {
@@ -154,11 +153,13 @@ public class Receptionist extends User implements Serializable{
     @Override
     public boolean login(String username, String Password){
         if(Receptionists!=null){
-                  for(Receptionist e: Receptionists){
-            if(e.userName.equals(username) && e.password.equals(Password)){
+            for(Receptionist e: Receptionists)
+            {
+                if(e.userName.equals(username) && e.password.equals(Password))
+                {
                 return true;
+                }
             }
-        }
             return false;
         }
         return false;
@@ -172,7 +173,6 @@ public class Receptionist extends User implements Serializable{
             {
                 System.out.println("User Already exists!");
             }
-            
         }
         Receptionists.add(this);
         //writeBin();
