@@ -26,7 +26,7 @@ public class HouseRental extends Application{
         showLogin(primaryStage);
     }
     public static void showSignUp(Stage primaryStage){
-        GridPane SignUpForm = createSignUp();
+        GridPane SignUpForm = createSignUp(primaryStage);
         Scene scene = new Scene(SignUpForm, 500, 400);
 
         primaryStage.setTitle("SignUp Form");
@@ -40,7 +40,7 @@ public class HouseRental extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();       
     }
-    public static GridPane createSignUp(){
+    public static GridPane createSignUp(Stage primaryStage){
         GridPane grid = new GridPane();
         grid.setAlignment(javafx.geometry.Pos.CENTER);
         grid.setHgap(10);
@@ -120,7 +120,10 @@ public class HouseRental extends Application{
                     passwordField.getText());
                             currentReceptionist.signUp();
                             User.SerializeBinary();
-                            }                  
+                            }
+            Stage newWindow = new Stage();
+            showLogin(newWindow);
+            primaryStage.close();
         });
         
          cancel.setOnAction(e -> {
