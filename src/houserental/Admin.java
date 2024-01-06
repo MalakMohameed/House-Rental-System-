@@ -22,6 +22,8 @@ public class Admin extends User implements Serializable
        houseList.add(obj);
     }
     
+    
+    
     public void removeHouse(String houseID, ArrayList<House> houseList){
         
         houseList.removeIf(house->house.getHouseID().equals(houseID));
@@ -46,7 +48,7 @@ public class Admin extends User implements Serializable
                 int index = Admins.indexOf(e);
                 return Admins.get(index);
             }
-        }
+        }   
         return null;
     }
    public void removeCustumer(Renter obj){

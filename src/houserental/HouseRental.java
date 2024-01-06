@@ -194,6 +194,7 @@ public class HouseRental extends Application{
             else if(renterUsr.login(enteredUsername, enteredPassword))
                 {               
                     System.out.println("logged in as renter");
+                    renterUsr.showRenterMainScrn(primaryStage);
                     //Call Renter Screen 
                 }
         });

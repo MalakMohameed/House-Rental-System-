@@ -13,6 +13,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
+///Some other JavaFX imports 
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
 public class Renter extends User implements Serializable{
     private int numberOfBooking; 
     private List<House> houseList = new ArrayList<House>();
@@ -125,6 +135,29 @@ public class Renter extends User implements Serializable{
         //writeBin();
     }
 
+    private  GridPane createRenterMainScrn(Stage primaryStage){
+        GridPane grid = new GridPane();
+        
+        return grid;
+        
+    }
+    
+    public  void showRenterMainScrn(Stage primaryStage){
+        
+        
+        GridPane RenterScrnForm = createRenterMainScrn(primaryStage);
+        Button btn = new Button("Test"); 
+        VBox vb = new VBox(btn);
+        
+        Scene scene = new Scene(vb, 500, 500);
+        
+       
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+    }
+
+    
    
     
 }

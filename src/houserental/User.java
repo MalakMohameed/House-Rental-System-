@@ -11,7 +11,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.*;
 
- abstract public class User implements Serializable{
+//JavaFX Imports 
+
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+
+ abstract public class User extends Stage implements Serializable{
 
     @Override
     public String toString() {
