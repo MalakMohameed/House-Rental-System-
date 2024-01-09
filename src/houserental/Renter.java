@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.FileInputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +30,17 @@ public class Renter extends User implements Serializable{
    
     
     Renter(){}
+    
+    Renter(Renter rentObj){
+        this.firstName= rentObj.firstName;
+        this. lastName= rentObj.lastName;
+        this. age= rentObj.age;
+        this. email= rentObj.email;
+        this.phone= rentObj.phone;
+        this.userName= rentObj.userName;
+        this.password= rentObj.password;
+        this.userID= rentObj.userID;
+    }
     
     Renter(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){
         //super = constructor to the user calss
@@ -97,7 +109,7 @@ public class Renter extends User implements Serializable{
           System.out.println("User with UserName: "+ UserName + " WAS NOT Found!");
         return null;
      }
-    
+    //
      public ArrayList<Renter> getAllUsers(){
          if(Renters.isEmpty()) { System.out.println("Empty List");return null;}
          else {
@@ -113,6 +125,14 @@ public class Renter extends User implements Serializable{
         {
             if(e.userName.equals(username) && e.password.equals(Password))
             {
+                this.firstName= e.firstName;
+                this. lastName= e.lastName;
+                this. age= e.age;
+                this. email= e.email;
+                this.phone= e.phone;
+                this.userName= e.userName;
+                this.password= e.password;
+                this.userID= e.userID;
                 return true;
             }
         }
@@ -135,26 +155,134 @@ public class Renter extends User implements Serializable{
         //writeBin();
     }
 
-    private  GridPane createRenterMainScrn(Stage primaryStage){
+    private static GridPane createRenterMainScrn(Stage primaryStage, Renter rentObj){
         GridPane grid = new GridPane();
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
+         grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
         
+        String UserField = rentObj.getUserName();
+        Label titleLabelWlcm = new Label("Welcome, " + UserField);
+        
+        Button rentScrnBtn = new Button("Rent NOW!");
+        Button usrAccountBtn = new Button("My Account");
+        
+        usrAccountBtn.setOnAction(e->{
+        
+        rntShowAccountMngScrn(primaryStage, rentObj);
+        });
+        
+        
+        grid.add(titleLabelWlcm,0,0);
+        grid.add(rentScrnBtn,3,0);
+        grid.add(usrAccountBtn,4,0);
         return grid;
         
     }
     
-    public  void showRenterMainScrn(Stage primaryStage){
+    public static void showRenterMainScrn(Stage primaryStage, Renter rentObj){
         
+        System.out.println( rentObj.toString());
+        GridPane RenterScrnForm = createRenterMainScrn(primaryStage, rentObj);
+        Scene scene = new Scene(RenterScrnForm, 500, 500);
         
-        GridPane RenterScrnForm = createRenterMainScrn(primaryStage);
-        Button btn = new Button("Test"); 
-        VBox vb = new VBox(btn);
-        
-        Scene scene = new Scene(vb, 500, 500);
-        
-       
+        primaryStage.setTitle("EzRent-Renter");
         primaryStage.setScene(scene);
         primaryStage.show();
         
+    }
+    
+    private static void rntShowAccountMngScrn(Stage primaryStage, Renter rentObj){
+        GridPane grid = rntCreateAccountMngScrn(primaryStage, rentObj);
+        Scene scene = new Scene(grid, 400,500);
+        
+        primaryStage.setTitle("EzRent-Renter");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    private static GridPane rntCreateAccountMngScrn(Stage primaryStage, Renter rentObj){
+        
+        GridPane grid = new GridPane();
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        
+        Label firstNameLabel = new Label("First Name:");
+        TextField firstNameField = new TextField();
+        firstNameField.setText(rentObj.getFirstName());
+
+        Label lastNameLabel = new Label("Last Name:");
+        TextField lastNameField = new TextField();
+        lastNameField.setText(rentObj.getLastName());
+
+        Label emailLabel = new Label("Email:");
+        TextField emailField = new TextField();
+        emailField.setText(rentObj.getEmail());
+        
+        Label phoneNumberLabel = new Label("Phone Number:");
+        TextField phoneNumberField = new TextField();
+        phoneNumberField.setText(rentObj.getPhone());
+        
+        Label ageLabel = new Label("Age:");
+        TextField ageField = new TextField();
+        //ageField.setText(this.getAge());
+        
+        Label usernameLabel = new Label("Username:");
+        TextField usernameField = new TextField();
+        usernameField.setText(rentObj.getUserName());
+        
+        Label passwordLabel = new Label("Password:");
+        PasswordField passwordField = new PasswordField();
+        passwordField.setText(rentObj.getPassword());
+        
+      
+        
+        Button saveUpdatedDataBtn = new Button("Save");
+        
+        saveUpdatedDataBtn.setOnAction(e->{
+        
+        rentObj.firstName= firstNameField.getText();
+        rentObj. lastName= lastNameField.getText();
+        //rentObj. age= rentObj.age;   ////Not Updating Age for the time being!!!!
+        rentObj. email= emailField.getText();
+        rentObj.phone= phoneNumberField.getText();
+        rentObj.userName= usernameField.getText();
+        rentObj.password= passwordLabel.getText();
+        ////RegenID
+        
+        User.SerializeBinary();
+        
+        Stage newWindow = new Stage();
+        Renter.showRenterMainScrn(newWindow, rentObj);
+        primaryStage.close();
+        
+            
+        });
+        
+        
+        
+        grid.add(firstNameLabel, 0, 1);
+        grid.add(firstNameField, 1, 1);
+        grid.add(lastNameLabel, 0, 2);
+        grid.add(lastNameField, 1, 2);
+        grid.add(emailLabel, 0, 3);
+        grid.add(emailField,1,3);
+        grid.add(phoneNumberLabel, 0, 4);
+        grid.add(phoneNumberField, 1, 4);
+        grid.add(ageLabel, 0, 5);
+        grid.add(ageField, 1, 5);
+        grid.add(usernameLabel, 0, 6);
+        grid.add(usernameField, 1, 6);
+        grid.add(passwordLabel, 0, 7);
+        grid.add(passwordField, 1, 7);
+        grid.add(saveUpdatedDataBtn,0,8);
+        
+       
+        
+        return grid;
     }
 
     

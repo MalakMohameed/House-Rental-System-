@@ -36,6 +36,7 @@ public class HouseRental extends Application{
     public static void showLogin(Stage primaryStage){
         GridPane LoginForm = createLogin(primaryStage);
         Scene scene = new Scene(LoginForm, 500, 400);
+        
         primaryStage.setTitle("Login Form");
         primaryStage.setScene(scene);
         primaryStage.show();       
@@ -106,6 +107,7 @@ public class HouseRental extends Application{
                     usernameField.getText(),
                     passwordField.getText());
                             currentRenter.signUp();
+                            System.out.println("User created: " + currentRenter.getUserName());
                             User.SerializeBinary();
                             }
                     else if(selectedUser.equalsIgnoreCase("Receptionist")){
@@ -175,11 +177,13 @@ public class HouseRental extends Application{
         Button cancel = new Button("Cancel");
         Button signUp = new Button("Create new account");
         login.setOnAction(e->{
+            
             String enteredUsername = usernameField.getText();
             String enteredPassword = passwordField.getText();
             Admin adminUsr = new Admin();
             Receptionist receptionistUsr = new Receptionist();
             Renter renterUsr = new Renter();
+            System.out.println("Attempting Login with credentials: " + enteredUsername + " and " +enteredPassword );
             if(adminUsr.login(enteredUsername, enteredPassword))
                 {
                     System.out.println("logged in as admin");
@@ -193,8 +197,9 @@ public class HouseRental extends Application{
 
             else if(renterUsr.login(enteredUsername, enteredPassword))
                 {               
-                    System.out.println("logged in as renter");
-                    renterUsr.showRenterMainScrn(primaryStage);
+                    
+                    System.out.println("logged in as renter: " + renterUsr.getUserName());
+                    Renter.showRenterMainScrn(primaryStage, renterUsr);
                     //Call Renter Screen 
                 }
         });

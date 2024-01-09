@@ -19,7 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 
- abstract public class User extends Stage implements Serializable{
+ abstract public class User implements Serializable{
 
     @Override
     public String toString() {
@@ -38,6 +38,7 @@ import javafx.stage.Stage;
     static protected ArrayList<Receptionist> Receptionists = new ArrayList<Receptionist>();   ///Moved From Receptionist Class and changed to static 
     static protected ArrayList<Admin> Admins = new ArrayList<Admin>();
     static public ArrayList<Renter> Renters = new ArrayList<Renter>();
+    /////Why is this public??????
     
     
     User(){}
@@ -133,15 +134,25 @@ import javafx.stage.Stage;
         
          System.out.println("houserental.Renter.readBin()<----");
         try{
+        System.out.println("here! try1");
         FileInputStream i = new FileInputStream("Renters.dat");
+        System.out.println("here! 138");
         ObjectInputStream in = new ObjectInputStream(i);
+        System.out.println("here! ObjectinS");
             try {
-                Renters = (ArrayList<Renter>) in.readObject();
+                System.out.println("here! try inner 2 ");
+               Renters = (ArrayList<Renter>) in.readObject();
+                System.out.println("here! RentersRead");
+              // Renters.add((Renter) in.readObject());
+                System.out.println("here! 144");
+              
                 in.close();
             } catch (ClassNotFoundException ex) {
+                System.out.println("here! Exception inner");
                 Logger.getLogger(Renter.class.getName()).log(Level.SEVERE, null, ex);
                 in.close();
             }
+             
         }catch (IOException e) {
             System.out.println(e);
         }
@@ -175,8 +186,57 @@ import javafx.stage.Stage;
         }catch (IOException e) {
             System.out.println(e);}
         
+                        
+        for(short k= 0; k < Renters.size();k++){
+                   System.out.println(Renters.get(k).getUserName());
+               }
        
     }
+    
+    public static void updateLocalObj(User usrObj){//////JUST REWRITE THE ENTIRE FUNCTIONNNN 
+        
+        if(usrObj instanceof Renter){
+            for(Renter rntObj : Renters)
+            {
+                if(rntObj.equals(usrObj)){
+                    
+                }
+            }
+        }
+        else if(usrObj instanceof Admin){
+            
+        }
+        else {
+            //Receptionist
+        }
+        
+    }
+    
+    
+     private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(firstName);
+        out.writeObject(lastName);
+        out.writeInt(age);
+        out.writeObject(email);
+        out.writeObject(phone);
+        out.writeObject(userName);
+        out.writeObject(password);
+        out.writeObject(userID);
+        // Custom serialization logic if needed
+    }
+      private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        firstName = (String) in.readObject();
+         lastName = (String) in.readObject();
+         age =   in.readInt();
+         email = (String) in.readObject();
+         phone = (String) in.readObject();
+         userName = (String) in.readObject();
+         password = (String) in.readObject();
+         userID = (String) in.readObject();
+       // in.defaultReadObject();
+        // Custom deserialization logic if needed
+    }
+    
    
     abstract protected void signUp();
     abstract protected boolean login(String username, String password);
