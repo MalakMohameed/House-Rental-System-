@@ -1,21 +1,23 @@
 package houserental;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 /////kakakakakakak
 public class Receptionist extends User implements Serializable{
     
     private static int bookingCounter = 0;
-    private ArrayList<Booking> bookingList = new ArrayList<Booking>();
-    private ArrayList<House> houseList = new ArrayList<House>();
+    public ArrayList<Booking> bookingList = new ArrayList<Booking>();
+    
    
      
     public Receptionist(){}
@@ -50,34 +52,34 @@ public class Receptionist extends User implements Serializable{
         String bookingID = String.valueOf(renterInitial) + houseIDString + numberOfRoomsString + counterString +categoryInitial + viewInitial + datePart;
         return bookingID;
     }
-     public void createBooking(Renter renter, String HouseID ,int numberOfNights, Enum category, Enum view, Date dateOfRental, Date endOfRental, int numberOfRooms) {
-         
-        //i wanna check if a certain house is empty of not. //Fixed 
-        
-          int index = -1;
-        for (int i = 0; i < houseList.size(); i++) {
-            if (houseList.get(i).getNumberOfRooms() == numberOfRooms &&
-                houseList.get(i).getCategory() == category &&
-                houseList.get(i).getView() == view &&
-                !houseList.get(i).isRented()) {
-                index = i;
-                break;
-            } else {
-                System.out.println("House Category isn't found.");
-            }
-        }
-
-        if (index != -1) {
-            String bookingID = generateBookingID(houseList.get(index), renter.getRenterID(), dateOfRental, endOfRental);
-            
-            //Booking newBooking = new Booking(bookingID,this ,numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
-            Booking tempBook = null;
-            double cost = tempBook.calculateCost(numberOfNights);
-            Booking newBooking = new Booking(bookingID, this, renter,houseList.get(houseList.indexOf(HouseID)),dateOfRental, endOfRental, numberOfNights, cost); 
-            bookingList.add(newBooking);
-            // saveBookingToFile(newBooking);
-        }
-    }
+//     public void createBooking(Renter renter, String HouseID ,int numberOfNights, Enum category, Enum view, Date dateOfRental, Date endOfRental, int numberOfRooms) {
+//         
+//        //i wanna check if a certain house is empty of not. //Fixed 
+//        
+//          int index = -1;
+//        for (int i = 0; i < houseList.size(); i++) {
+//            if (houseList.get(i).getNumberOfRooms() == numberOfRooms &&
+//                houseList.get(i).getCategory() == category &&
+//                houseList.get(i).getView() == view &&
+//                !houseList.get(i).isRented()) {
+//                index = i;
+//                break;
+//            } else {
+//                System.out.println("House Category isn't found.");
+//            }
+//        }
+//
+//        if (index != -1) {
+//            String bookingID = generateBookingID(houseList.get(index), renter.getRenterID(), dateOfRental, endOfRental);
+//            
+//            //Booking newBooking = new Booking(bookingID,this ,numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
+//            Booking tempBook = null;
+//            double cost = tempBook.calculateCost(numberOfNights);
+//            Booking newBooking = new Booking(this, renter,houseList.get(houseList.indexOf(HouseID)),dateOfRental, endOfRental, numberOfNights, cost); 
+//            bookingList.add(newBooking);
+//            // saveBookingToFile(newBooking);
+//        }
+//    }
     
     public void specifyRentalDetails(String BookingID){
         
@@ -146,10 +148,6 @@ public class Receptionist extends User implements Serializable{
           return this.bookingList;
       }
     
-    /**
-     *
-     */
-
     @Override
     public boolean login(String username, String Password){
         if(Receptionists!=null){
@@ -177,4 +175,102 @@ public class Receptionist extends User implements Serializable{
         Receptionists.add(this);
         //writeBin();
     }
+    
+    
+        public static GridPane createReceptionistMainScrn(Stage primaryStage, Receptionist receptionistObj){
+        GridPane grid = new GridPane();
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
+         grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        String UserField = receptionistObj.getUserName();
+        Label titleLabelWlcm = new Label("Welcome, " + UserField);
+        
+        Button createBooking = new Button("Add Booking");
+        Button deleteBooking = new Button("Remove Booking");
+        Button searchBookings = new Button("Search Booking");
+        createBooking.setOnAction(e->{
+            primaryStage.close();
+            ShowBookingAdd(primaryStage,receptionistObj);
+        });
+        grid.add(titleLabelWlcm,0,0);
+        grid.add(createBooking,0,2);
+        grid.add(deleteBooking,0,3);
+        grid.add(searchBookings,0,4);
+        return grid;
+    }
+        public static void ShowAccountMngScrn(Stage primaryStage, Receptionist receptionistObj){
+        GridPane grid = createReceptionistMainScrn(primaryStage, receptionistObj);
+        Scene scene = new Scene(grid, 400,500);
+        
+        primaryStage.setTitle("Receptionist");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+        public static void ShowBookingAdd(Stage primaryStage, Receptionist receptionistObj){
+        GridPane grid = receptionistObj.createBookingAdd(receptionistObj);
+        Scene scene = new Scene(grid, 400,500);
+        primaryStage.setTitle("Add Booking");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        }
+        public GridPane createBookingAdd(Receptionist receptionistObj){
+        GridPane grid = new GridPane();
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
+        grid.setHgap(10);            grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));     
+        Label renterID = new Label("RenterID:");
+        TextField renterIDField = new TextField();
+
+        Label houseID = new Label("HouseID:");
+        TextField houseIDField = new TextField();
+
+        Label startDate = new Label("Start Date:");
+        DatePicker startDateField = new DatePicker();
+        
+        Label endDate = new Label("End Date:");
+        DatePicker endDateField = new DatePicker();
+        
+        Button add = new Button("Add Booking");
+        
+add.setOnAction(e -> {
+    try {
+        LocalDate start = startDateField.getValue();
+        LocalDate end = endDateField.getValue();
+
+        Date startDateVar = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDateVar = Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        receptionistObj.bookingList.add(
+            new Booking(
+                receptionistObj,
+                Renter.getUserByID(renterIDField.getText()),
+                House.getHouseByID(houseIDField.getText()),
+                startDateVar,
+                endDateVar
+            )
+            
+        );
+        User.SerializeBinary();
+        System.out.println("Booking successful");
+        // You might want to update the UI or provide additional feedback here.
+    } catch (Exception ex) {
+        System.out.println("Error: " + ex.getMessage());
+        ex.printStackTrace(); 
+        // Handle the exception or provide appropriate user feedback.
+    }
+});
+        grid.add(renterID, 0, 0);
+        grid.add(renterIDField, 1, 0);
+        grid.add(houseID, 0, 1);
+        grid.add(houseIDField, 1, 1);
+        grid.add(startDate, 0, 2);
+        grid.add(startDateField,1,2);
+        grid.add(endDate, 0, 3);
+        grid.add(endDateField, 1, 3);        
+        grid.add(add,0,4);
+        
+        return grid;
+        }
+    
 }

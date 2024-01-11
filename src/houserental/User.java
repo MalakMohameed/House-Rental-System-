@@ -36,11 +36,10 @@ import javafx.stage.Stage;
     protected String userName;
     protected String password;
     protected String userID;
-    static protected int userCounter;
+    static public int userCounter;
     static protected ArrayList<Receptionist> Receptionists = new ArrayList<Receptionist>();   ///Moved From Receptionist Class and changed to static 
     static protected ArrayList<Admin> Admins = new ArrayList<Admin>();
-    static public ArrayList<Renter> Renters = new ArrayList<Renter>();
-    /////Why is this public??????
+    static protected ArrayList<Renter> Renters = new ArrayList<Renter>();
     
     
     User(){}
@@ -95,7 +94,7 @@ import javafx.stage.Stage;
     } 
     public static void SerializeBinary(){
         
-         try{
+        try{
         FileOutputStream i = new FileOutputStream("Renters.dat");
         ObjectOutputStream in = new ObjectOutputStream(i);
           System.out.println( Renters.toString());
@@ -134,23 +133,13 @@ import javafx.stage.Stage;
     
     public static void DeserializeBinary(){
         
-         System.out.println("houserental.Renter.readBin()<----");
         try{
-        System.out.println("here! try1");
         FileInputStream i = new FileInputStream("Renters.dat");
-        System.out.println("here! 138");
         ObjectInputStream in = new ObjectInputStream(i);
-        System.out.println("here! ObjectinS");
             try {
-                System.out.println("here! try inner 2 ");
-               Renters = (ArrayList<Renter>) in.readObject();
-                System.out.println("here! RentersRead");
-              // Renters.add((Renter) in.readObject());
-                System.out.println("here! 144");
-              
+               Renters = (ArrayList<Renter>) in.readObject();        
                 in.close();
             } catch (ClassNotFoundException ex) {
-                System.out.println("here! Exception inner");
                 Logger.getLogger(Renter.class.getName()).log(Level.SEVERE, null, ex);
                 in.close();
             }
@@ -160,10 +149,6 @@ import javafx.stage.Stage;
         }
         System.out.println("houserental.Renter.readBin()");
         System.out.println("houserental.Renter.readBin()" + Renters.size());
-        for(int i =0; i< Renters.size(); i++)
-        {
-            System.out.println("-->"+Renters.get(i).firstName);
-        }
         
         /////
         

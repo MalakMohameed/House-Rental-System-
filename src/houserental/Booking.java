@@ -1,6 +1,7 @@
 package houserental;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 ///Removed Imports from same package. houserental.House and houserental.Receptionist ar both part of house rental package imported above 
@@ -15,20 +16,19 @@ public class Booking {
     private House rentedHouse;
     private Date startDate;
     private Date endDate;
-    
     private int numberOfNights;
     private double totalCost;
   
     
-     public Booking(String bookingID, Receptionist receptionist, Renter renter, House rentedHouse,
-                         Date startDate, Date endDate, int numberOfNights,double totalCost) {
-        this.bookingID = bookingID;
+    public Booking(Receptionist receptionist, Renter renter, House rentedHouse,
+                        Date startDate, Date endDate) {
         this.receptionist = receptionist;
         this.renter = renter;
         this.rentedHouse = rentedHouse;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.numberOfNights = numberOfNights;
+        long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
+        this.numberOfNights = (int) TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         this.totalCost = calculateCost(numberOfNights);  ///calculate cost is overridable, check function.
 }
 
@@ -37,7 +37,7 @@ public class Booking {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 //    }
      
-     public String getBookingID() {
+    public String getBookingID() {
         return bookingID;
     }
 

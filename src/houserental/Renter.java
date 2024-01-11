@@ -21,12 +21,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 
 public class Renter extends User implements Serializable{
     private int numberOfBooking; 
-    private List<House> houseList = new ArrayList<House>();
+   // private List<House> houseList = new ArrayList<House>(); Moved to House Class 
    
     
     Renter(){}
@@ -86,7 +87,7 @@ public class Renter extends User implements Serializable{
 //    }
     
     
-     public Renter getUserByID(String RenterID){ ///Error Handling
+     public static Renter getUserByID(String RenterID){ ///Error Handling
         
         for (Renter e : Renters){
             if(e.userID.equals(RenterID)){
@@ -164,6 +165,7 @@ public class Renter extends User implements Serializable{
         
         String UserField = rentObj.getUserName();
         Label titleLabelWlcm = new Label("Welcome, " + UserField);
+        titleLabelWlcm.setFont(new Font(22));
         
         Button rentScrnBtn = new Button("Rent NOW!");
         Button usrAccountBtn = new Button("My Account");
@@ -173,7 +175,35 @@ public class Renter extends User implements Serializable{
         rntShowAccountMngScrn(primaryStage, rentObj);
         });
         
+      
+        House houseObj = new House();
+        houseObj.setDescription("House sample descriptionBAthroomBedroom, etc..");
+        houseObj.setCostPerNight(600);
+        houseObj.setView(View.garden);
+        houseObj.setCategory(Category.duplex);
+        houseObj.setNumberOfRentals(15);
         
+        House houseObj1 = new House();
+        //houseObj1.setDescription("Another House sample descriptionBAthroomBedroom, etc..");
+        houseObj1.setCostPerNight(600);
+        houseObj1.setView(View.pool);
+        houseObj1.setCategory(Category.villa);
+        houseObj1.setNumberOfRooms(3);
+        houseObj1.setNumberOfRentals(3);
+        
+        
+        
+        
+        UINode node1 = new UINode(houseObj);
+        UINode node2 = new UINode(houseObj1);
+        
+        grid.add(node1.getNode(), 5,3);
+        grid.add(node2.getNode(), 5,4);
+        
+        
+        
+        
+       
         grid.add(titleLabelWlcm,0,0);
         grid.add(rentScrnBtn,3,0);
         grid.add(usrAccountBtn,4,0);
@@ -285,7 +315,13 @@ public class Renter extends User implements Serializable{
         return grid;
     }
 
-    
+    private GridPane rntCreateAvilBookingScrn(Stage primaryStage){
+        GridPane grid = new GridPane();
+        
+        
+        
+        return grid;
+    } 
    
     
 }
