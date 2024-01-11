@@ -17,6 +17,9 @@ public class HouseRental extends Application{
     public static void main(String[] args) {
         
         User.DeserializeBinary();
+//        House.houseList.add(new House(Category.apartment,View.beach,5,true,4,2,"smth",50,22,"Egypt","Cairo","street",800,29,4));
+//        House.SerializeHouse();
+        House.DeserializeHouse();
         launch(args);
         
     }
@@ -187,12 +190,11 @@ public class HouseRental extends Application{
             if(adminUsr.login(enteredUsername, enteredPassword))
                 {
                     System.out.println("logged in as admin");
-                    //Call Admin Screen Function
+                    adminUsr.showAdminMainScrn(primaryStage);
                 }
             else if(receptionistUsr.login(enteredUsername, enteredPassword))
                 {
-                    System.out.println("logged in as receptionist");
-                    ///Call Receptionist Screen
+                    Receptionist.ShowAccountMngScrn(primaryStage, receptionistUsr);
                 }
 
             else if(renterUsr.login(enteredUsername, enteredPassword))
@@ -200,7 +202,6 @@ public class HouseRental extends Application{
                     
                     System.out.println("logged in as renter: " + renterUsr.getUserName());
                     Renter.showRenterMainScrn(primaryStage, renterUsr);
-                    //Call Renter Screen 
                 }
         });
         cancel.setOnAction(e->{
