@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -135,6 +134,7 @@ public class Admin extends User implements Serializable
         
         Scene sc = new Scene(grid);
         st.setScene(sc);
+        st.setMaximized(true);
         st.show();
     }
     private  Scene addIcon(House houseobj){
@@ -437,6 +437,7 @@ public class Admin extends User implements Serializable
         Scene scene = new Scene(scrollPane, 200,500);
         primaryStage.setTitle("User Search");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();              
     }
     
@@ -482,6 +483,7 @@ public class Admin extends User implements Serializable
             Scene scene = new Scene(grid, 400,500);
             primaryStage.setTitle("User Remove");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();       
     }
     public GridPane createUser(Stage primaryStage){
@@ -516,6 +518,7 @@ public class Admin extends User implements Serializable
             Scene scene = new Scene(grid, 400,500);
             primaryStage.setTitle("User Add");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();        
     }
     
@@ -846,6 +849,7 @@ public class Admin extends User implements Serializable
         Scene scene = new Scene(SignUpForm, 500, 400);
         primaryStage.setTitle("SignUp Form");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();        
     }
     public static House getMostRented(){
@@ -971,6 +975,7 @@ public static House getMostRevenue(){
         Scene scene = new Scene(Stats, 500, 400);
         primaryStage.setTitle("Revenue");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
     public void showMostRented(Stage primaryStage){
@@ -978,6 +983,7 @@ public static House getMostRevenue(){
         Scene scene = new Scene(Stats, 500, 400);
         primaryStage.setTitle("Rented");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
     public GridPane createStats(Stage primaryStage){
@@ -1009,6 +1015,7 @@ public static House getMostRevenue(){
         Scene scene = new Scene(Stats, 500, 400);
         primaryStage.setTitle("Stats Form");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();    
     }
     public void showAdminMainScrn(Stage primaryStage){
@@ -1079,21 +1086,24 @@ public static House getMostRevenue(){
         Scene sc = new Scene(gridPane,250,70);
         primaryStage.setScene(sc);
         primaryStage.setTitle("Admin MainScreen");
+        primaryStage.setMaximized(true);
         primaryStage.show();
         
         
     }
     
-    public static void showAdminStatScreen(Stage primaryStage){
+    public void showAdminStatScreen(Stage primaryStage){
        Pane rootDiv = new Pane();
        
        Label dashboardTitleLabel = new Label("Dashboard");
        dashboardTitleLabel.setFont(new Font(26));
        dashboardTitleLabel.setLayoutX(30);
        dashboardTitleLabel.setLayoutY(20);
-       
+       Button back = new Button("Back");
        ////
-       
+       back.setOnAction(e->{
+           showAdminMainScrn(primaryStage);
+       });
         Separator sep = new Separator();
         sep.setPrefWidth(rootDiv.getWidth());
         rootDiv.widthProperty().addListener((observable, oldValue, newValue) -> sep.setPrefWidth(newValue.doubleValue()));
@@ -1146,7 +1156,7 @@ public static House getMostRevenue(){
         
         
         
-        userDataDiv.getChildren().addAll(userDataTitleLabel,tableViewUsr);
+        userDataDiv.getChildren().addAll(userDataTitleLabel,tableViewUsr, back);
         
         //////
         
@@ -1200,6 +1210,7 @@ public static House getMostRevenue(){
        Scene scene = new Scene(rootDiv);
        primaryStage.setScene(scene);
        primaryStage.setTitle("Admin - DASHBOARD");
+       primaryStage.setMaximized(true);
        primaryStage.show();
     }
     

@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -18,6 +19,7 @@ public class HouseRental extends Application{
         
      User.DeserializeBinary();
      House.DeserializeHouse();
+     Booking.DeserializeBooking();
 //     House.getHouseList().add(new House(Category.apartment,View.beach,13,false,3,1,"",50,22,"Egypt","Alexandria","street",820,60,9));
 //     House.getHouseList().add(new House(Category.apartment,View.city,3,false,5,3,"",95,65,"Egypt","Cairo","street",1810,19,4));
 //     House.getHouseList().add(new House(Category.apartment,View.city,36,false,2,1,"",65,32,"Egypt","Cairo","street",1865,36,16));
@@ -95,7 +97,23 @@ public class HouseRental extends Application{
         signUp.setOnAction(e-> {
             RadioButton selectedUserType = (RadioButton) userType.getSelectedToggle();
             String selectedUser = (selectedUserType != null) ? selectedUserType.getText() : "";
-                    if(selectedUser.equalsIgnoreCase("admin")){
+                    if(!User.isValidEmail(emailField.getText()))
+                    {
+                        Alert ad = new Alert(AlertType.ERROR);                       
+                        ad.setHeaderText(null);
+                        ad.setContentText("Invalid email, please try again");
+                        ButtonType bt = new ButtonType("Ok");
+                        ad.show();
+                        
+                    }
+                    else if(((int) Double.parseDouble(ageField.getText()) < 18)){
+                        Alert ad = new Alert(AlertType.ERROR);                       
+                        ad.setHeaderText(null);
+                        ad.setContentText("Invalid age, please try again");
+                        ButtonType bt = new ButtonType("Ok");
+                        ad.show();
+                    }
+                    else if(selectedUser.equalsIgnoreCase("admin" )&& (User.isValidEmail(emailField.getText())) && ((int) Double.parseDouble(ageField.getText()) > 18)){
                         Admin currentAdmin = new Admin(
                    firstNameField.getText(),
                     lastNameField.getText(),
@@ -104,10 +122,13 @@ public class HouseRental extends Application{
                               (int) Double.parseDouble(ageField.getText()),
                     usernameField.getText(),
                     passwordField.getText());
-                        currentAdmin.signUp();
-                        User.SerializeBinary();
+                             currentAdmin.signUp();
+                        User.SerializeBinary();                                        
+                        Stage newWindow = new Stage();
+                        showLogin(newWindow);
+                        primaryStage.close();
                         }          
-                    else if(selectedUser.equalsIgnoreCase("Renter")){
+                    else if(selectedUser.equalsIgnoreCase("Renter")&&(User.isValidEmail(emailField.getText())) && ((int) Double.parseDouble(ageField.getText()) > 18)){
                             Renter currentRenter = new Renter(
                    firstNameField.getText(),
                     lastNameField.getText(),
@@ -119,8 +140,11 @@ public class HouseRental extends Application{
                             currentRenter.signUp();
                             System.out.println("User created: " + currentRenter.getUserName());
                             User.SerializeBinary();
+                            Stage newWindow = new Stage();
+                            showLogin(newWindow);
+                            primaryStage.close();
                             }
-                    else if(selectedUser.equalsIgnoreCase("Receptionist")){
+                    else if(selectedUser.equalsIgnoreCase("Receptionist")&& (User.isValidEmail(emailField.getText())) && ((int) Double.parseDouble(ageField.getText()) > 18)){
                         System.out.println("in here");
                         Receptionist currentReceptionist = new Receptionist(
                    firstNameField.getText(),
@@ -132,10 +156,10 @@ public class HouseRental extends Application{
                     passwordField.getText());
                             currentReceptionist.signUp();
                             User.SerializeBinary();
+                            Stage newWindow = new Stage();
+                            showLogin(newWindow);
+                            primaryStage.close();
                             }
-            Stage newWindow = new Stage();
-            showLogin(newWindow);
-            primaryStage.close();
         });
         
          cancel.setOnAction(e -> {

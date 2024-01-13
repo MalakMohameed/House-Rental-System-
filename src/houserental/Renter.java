@@ -1,40 +1,26 @@
 //Daniel @10/1 @ 12:05am
 //check notes 
 package houserental;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 ///Some other JavaFX imports 
-import javafx.application.Application;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
 public class Renter extends User implements Serializable{
     private int numberOfBooking;    
-   // private List<House> houseList = new ArrayList<House>(); Moved to House Class 
    
     
     Renter(){}
@@ -65,37 +51,7 @@ public class Renter extends User implements Serializable{
     public String getRenterID(){
         return this.userID;
     }
-    
-    
-    
-    
-//    public void rateRent(int Rate){ ////Change this to have an enum of Rating and basically refactor into cleaner code.
-//        int index = -1;
-//        for(int i = 0 ; i <houseList.size(); i++){
-//           if(houseList.get(i).getUserID().equals(this.getRenterID()) && Rate >= 5){ //five stars or less
-//               index = i;
-//               break;
-//           }else{
-//               System.out.println("");
-//           }
-//       }
-//    }
-//    public void viewBookingHistory() {
-//        
-//        ArrayList<Booking> bookingHistory = new ArrayList<>();
-//        for (House house : houseList) {
-//            ArrayList<Booking> houseBookings = house.getBookings();
-//            for (Booking booking : houseBookings) {
-//                if (booking.getRenter().getRenterID().equals(this.getRenterID())) {
-//                    bookingHistory.add(booking);
-//                    System.out.println("House ID: " + house.getHouseID());
-//                }
-//                   
-//                
-//            }
-//        }
-//    }
-    
+     
     
      public static Renter getUserByID(String RenterID){ ///Error Handling
         
@@ -108,25 +64,6 @@ public class Renter extends User implements Serializable{
         return null;
         
     }
-     public  Renter getUserByUserName(String UserName)
-     {
-         for (Renter e : Renters){
-            if(e.userName.equals(UserName)){
-                int index = Renters.indexOf(e);
-                        System.out.println("User with UserName: "+ UserName + "Found!");
-                return Renters.get(index);
-            }
-        }
-          System.out.println("User with UserName: "+ UserName + " WAS NOT Found!");
-        return null;
-     }
-    //
-     public ArrayList<Renter> getUsers(){
-         if(Renters.isEmpty()) { System.out.println("Empty List");return null;}
-         else {
-             return this.Renters;
-         }
-     }
      
     
     @Override
@@ -163,7 +100,6 @@ public class Renter extends User implements Serializable{
             }       
         }
         Renters.add(this);
-        //writeBin();
     }
 
     private static Pane createRenterMainScrn(Stage primaryStage, Renter rentObj){
@@ -184,6 +120,7 @@ public class Renter extends User implements Serializable{
         Button usrAccountBtn = new Button("My Account");
         usrAccountBtn.setLayoutX(400);
          usrAccountBtn.setLayoutY(30);
+        Button back = new Button("Back"); 
         
         Separator sep = new Separator();
         sep.setPrefWidth(rootDiv.getWidth());
@@ -200,31 +137,12 @@ public class Renter extends User implements Serializable{
            VSep.setLayoutX(-450);
         });
            
-           
-        
-        
+
         usrAccountBtn.setOnAction(e->{
         
         rntShowAccountMngScrn(primaryStage, rentObj);
         });
         
-      
-//        House houseObj = new House();
-//        houseObj.setDescription("House sample descriptionBAthroomBedroom, etc..");
-//        houseObj.setCostPerNight(600);
-//        houseObj.setView(View.garden);
-//        houseObj.setCategory(Category.duplex);
-//        houseObj.setNumberOfRentals(15);
-//        
-//        House houseObj1 = new House();
-//        //houseObj1.setDescription("Another House sample descriptionBAthroomBedroom, etc..");
-//        houseObj1.setCostPerNight(600);
-//        houseObj1.setView(View.pool);
-//        houseObj1.setCategory(Category.villa);
-//        houseObj1.setNumberOfRooms(3);
-//        houseObj1.setNumberOfRentals(3);
-
-       /////////////////////////////////////
        
        Pane filterDivPane = new Pane();
        filterDivPane.setLayoutY(130);
@@ -337,11 +255,10 @@ public class Renter extends User implements Serializable{
        /////////////////////////////////////
        
        
-        
-        
-        
-        
-       
+        back.setOnAction(e->{
+            HouseRental.showLogin(primaryStage);
+        });
+
         rootDiv.getChildren().add(titleLabelWlcm);
         //grid.add(viewComboBox,0,3);
          rootDiv.getChildren().add(sep);
@@ -349,6 +266,7 @@ public class Renter extends User implements Serializable{
         rootDiv.getChildren().add(filterDivPane);
         rootDiv.getChildren().add(itemsGrid);
         rootDiv.getChildren().add(rentScrnBtn);
+        rootDiv.getChildren().add(back);
         rootDiv.getChildren().add(usrAccountBtn);
        
         return rootDiv;
@@ -378,6 +296,7 @@ public class Renter extends User implements Serializable{
         primaryStage.setTitle("EzRent-Renter");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(false);
+        primaryStage.setMaximized(true);
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
@@ -451,8 +370,10 @@ public class Renter extends User implements Serializable{
         
             
         });
-        
-        
+        Button back = new Button("Back");
+        back.setOnAction(e->{
+            showRenterMainScrn(primaryStage,rentObj);
+        });
        
         AccSettingsDiv.add(firstNameLabel, 0, 1);
         AccSettingsDiv.add(firstNameField, 1, 1);
@@ -469,7 +390,7 @@ public class Renter extends User implements Serializable{
         AccSettingsDiv.add(passwordLabel, 0, 7);
         AccSettingsDiv.add(passwordField, 1, 7);
         AccSettingsDiv.add(saveUpdatedDataBtn,0,8);
-
+        AccSettingsDiv.add(back,0,9);
 
         /////////
         
@@ -532,5 +453,3 @@ public class Renter extends User implements Serializable{
     
     
 }
-
-

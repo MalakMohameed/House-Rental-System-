@@ -17,9 +17,7 @@ public class Receptionist extends User implements Serializable{
     
     private static int bookingCounter = 0;
     public ArrayList<Booking> bookingList = new ArrayList<Booking>();
-    
-   
-     
+
     public Receptionist(){}
     
     public Receptionist(String newfirstName, String newlastName, String newemail, String newphone, int age, String newuserName, String newpassword){
@@ -36,24 +34,6 @@ public class Receptionist extends User implements Serializable{
         return this.userID;
     }
     
-      
-    public String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
-                                                                                                           ////Why is this function static?     //Fixed
-        char renterInitial = renterID.isEmpty() ? '?' : renterID.charAt(0);
-        
-        String numberOfRoomsString = String.valueOf(house.getNumberOfRooms());
-        String houseIDString = String.valueOf(house.getHouseID());
-        
-        String counterString = String.valueOf(bookingCounter++);
-        char categoryInitial = house.getCategory().toString().charAt(0);
-        char viewInitial = house.getView().toString().charAt(0);
-        String datePart = String.valueOf(startDate.getTime() % 100000) + String.valueOf(endDate.getTime() % 100000);
-        
-        String bookingID = String.valueOf(renterInitial) + houseIDString + numberOfRoomsString + counterString +categoryInitial + viewInitial + datePart;
-        return bookingID;
-    }
-   
-
     public Receptionist getUserByID(String UserID){ ///Error Handling
         
         for (Receptionist e : Receptionists){
@@ -66,10 +46,10 @@ public class Receptionist extends User implements Serializable{
     }
       
       
-      public ArrayList<Booking> getBookingList()
-      {
+    public ArrayList<Booking> getBookingList()
+    {
           return this.bookingList;
-      }
+    }
     
     @Override
     public boolean login(String username, String Password){
@@ -134,6 +114,7 @@ public class Receptionist extends User implements Serializable{
         
             primaryStage.setTitle("Receptionist");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
     }
         public static void ShowBookingRemove(Stage primaryStage, Receptionist receptionistObj){
@@ -142,6 +123,7 @@ public class Receptionist extends User implements Serializable{
         
             primaryStage.setTitle("Receptionist");
             primaryStage.setScene(scene);
+            primaryStage.setMaximized(true);
             primaryStage.show();
         }
         public GridPane createBookingRemove(Stage primaryStage, Receptionist receptionistObj){
@@ -181,6 +163,7 @@ public class Receptionist extends User implements Serializable{
         Scene scene = new Scene(grid, 400,500);
         primaryStage.setTitle("Add Booking");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
         primaryStage.show();
         }
         public GridPane createBookingAdd(Stage primaryStage,Receptionist receptionistObj){
