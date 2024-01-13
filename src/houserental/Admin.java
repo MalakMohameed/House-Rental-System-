@@ -2,6 +2,7 @@ package houserental;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -77,6 +79,10 @@ public class Admin extends User implements Serializable
        Renters.add(obj);
    }
     
+  
+       
+   
+   
 
     @Override
     public boolean login(String username, String Password){
@@ -1110,13 +1116,37 @@ public static House getMostRevenue(){
         userDataDiv.setLayoutY(90);
         
         
-        Label userDataTitleLabel = new Label("User Statistics");
+        Label userDataTitleLabel = new Label("Receptionist Statistics");
         userDataTitleLabel.setFont(new Font(24));        
-        userDataTitleLabel.setLayoutX(20);
+        userDataTitleLabel.setLayoutX(30);
         
         
         
-        userDataDiv.getChildren().add(userDataTitleLabel);
+        TableView<Receptionist> tableViewUsr = new TableView<>();
+        ObservableList<Receptionist> Usrdata = FXCollections.observableArrayList(Receptionist.Receptionists);
+        tableViewUsr.setItems(Usrdata);
+
+        
+        TableColumn<Receptionist, String> UsrIDCol = new TableColumn<>("User ID");
+        UsrIDCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getUserID()));
+
+        TableColumn<Receptionist, String> usrnameCol = new TableColumn<>("Userame");
+        usrnameCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getUserName()));
+       
+        TableColumn<Receptionist, Integer> noRentalCol = new TableColumn<>("No. Rentals ");
+        noRentalCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getBookingList().size()));
+        //houseCatCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        
+        
+        tableViewUsr.getColumns().addAll(UsrIDCol, usrnameCol,noRentalCol);
+        tableViewUsr.setPrefWidth(300);
+        tableViewUsr.setPrefHeight(150);
+        tableViewUsr.setLayoutY(50);
+        tableViewUsr.setLayoutX(30);
+        
+        
+        
+        userDataDiv.getChildren().addAll(userDataTitleLabel,tableViewUsr);
         
         //////
         
@@ -1132,10 +1162,34 @@ public static House getMostRevenue(){
         Label houseDataTitleLabel = new Label("House Statistics");
         houseDataTitleLabel.setFont(new Font(24));        
        
+        Label mostRevenueHouseLabel = new Label();
         
         
+       
+        TableView<House> tableView = new TableView<>();
+        ObservableList<House> Housedata = FXCollections.observableArrayList(House.getHouseList());
+        tableView.setItems(Housedata);
+
         
-        houseDataDiv.getChildren().add(houseDataTitleLabel);
+        TableColumn<House, String> houseIDCol = new TableColumn<>("House ID");
+        houseIDCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getHouseID()));
+
+        TableColumn<House, Integer> NoRentalsCol = new TableColumn<>("No. of Rentals");
+        NoRentalsCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getNumberOfRentals()));
+       
+        TableColumn<House, String> houseCatCol = new TableColumn<>("House Category");
+        //houseCatCol.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCategory()));
+        houseCatCol.setCellValueFactory(new PropertyValueFactory<>("Category"));
+        
+        
+        tableView.getColumns().addAll(houseIDCol, NoRentalsCol,houseCatCol);
+        tableView.setPrefWidth(300);
+        tableView.setPrefHeight(150);
+        tableView.setLayoutY(50);
+        tableView.setLayoutX(30);
+        
+        
+        houseDataDiv.getChildren().addAll(houseDataTitleLabel,tableView);
         
         
         
