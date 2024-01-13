@@ -16,11 +16,18 @@ public class HouseRental extends Application{
 
     public static void main(String[] args) {
         
-        User.DeserializeBinary();
-//        House.houseList.add(new House(Category.apartment,View.beach,5,true,4,2,"smth",50,22,"Egypt","Cairo","street",800,29,4));
-//        House.SerializeHouse();
-        House.DeserializeHouse();
-        launch(args);
+     User.DeserializeBinary();
+     House.DeserializeHouse();
+//     House.getHouseList().add(new House(Category.apartment,View.beach,13,false,3,1,"",50,22,"Egypt","Alexandria","street",820,60,9));
+//     House.getHouseList().add(new House(Category.apartment,View.city,3,false,5,3,"",95,65,"Egypt","Cairo","street",1810,19,4));
+//     House.getHouseList().add(new House(Category.apartment,View.city,36,false,2,1,"",65,32,"Egypt","Cairo","street",1865,36,16));
+//     House.getHouseList().add(new House(Category.apartment,View.rooftop,5,false,3,2,"smth",50,22,"Egypt","Ras-Sedr","street",8600,29,4));
+//     House.getHouseList().add(new House(Category.apartment,View.city,3,false,5,2,"",75,65,"Egypt","Cairo","street",1810,19,4));
+//     House.getHouseList().add(new House(Category.apartment,View.city,26,false,3,1,"",55,32,"Egypt","Cairo","street",1830,36,6));
+//     House.getHouseList().add(new House(Category.apartment,View.beach,6,true,4,2,"smth",50,22,"Egypt","Cairo","street",1820,29,4));
+//     House.SerializeHouse();
+//     System.out.println("Created Houses and saved to files...");       
+     launch(args);
         
     }
 

@@ -1,5 +1,6 @@
 package houserental;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.stage.StageStyle;
 import javafx.geometry.Rectangle2D;
@@ -8,12 +9,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
@@ -35,7 +44,7 @@ public class UINode
     
     
     private Pane container = new Pane();
-    House house = new House();
+    private House house = new House();
     
     
     
@@ -46,11 +55,55 @@ public class UINode
         RectangleContainer.setArcHeight(15);
         RectangleContainer.setArcWidth(15);
         
+        
+        ///Image Background 
+        Image nodeBgImage;
+        if(houseObj.getView().equals(View.beach)){
+            nodeBgImage = new Image("file:resources/textures/BeachView.png");
+        }
+        else if (houseObj.getView().equals(View.garden)){
+            nodeBgImage = new Image("file:resources/textures/GardenView.png");
+        }
+        else if(houseObj.getView().equals(View.city)){
+            nodeBgImage = new Image("file:resources/textures/CityView.png");
+        }
+        else {
+            nodeBgImage = new Image("file:resources/textures/defaultHouse.png");
+        }
+        
+       
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(5.0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.DARKGRAY);
+
+       
+        RectangleContainer.setFill(new ImagePattern(nodeBgImage));
+        RectangleContainer.setEffect(dropShadow);
+         GaussianBlur blur = new GaussianBlur(5.0);
+             RectangleContainer.setEffect(blur);
+        
+        RectangleContainer.setOnMouseEntered(e->{
+            RectangleContainer.setScaleX(1.1);
+            RectangleContainer.setScaleY(1.1);
+            RectangleContainer.setEffect(null);
+            
+        
+        });
+          RectangleContainer.setOnMouseExited(e->{
+            RectangleContainer.setScaleX(1);
+            RectangleContainer.setScaleY(1);
+            RectangleContainer.setEffect(blur);
+                  
+        });
+        
+        
         descriptionLabel.setText(houseObj.getDescription());
         descriptionLabel.setLayoutX(container.getLayoutX()+10);
         descriptionLabel.setLayoutY(container.getLayoutY()+40);
         priceLabel.setText(String.valueOf(houseObj.getCostPerNight()) + "/Night");
-        priceLabel.setFont(new Font(18));
+        priceLabel.setFont(new Font(20));
         priceLabel.setLayoutX(container.getLayoutX()+10);
         priceLabel.setLayoutY(container.getLayoutY()+5);
         ///String.valueOf( houseObj.getCostPerNight())
@@ -103,9 +156,16 @@ public class UINode
             Label propTypeLabel = new Label(""+ houseObj.getCategory());
             propTypeLabel.setLayoutX(20);
             propTypeLabel.setLayoutY(60);
+            propTypeLabel.setFont(new Font(18));
+            
+            String locationStr = "In "+String.valueOf( houseObj.getHouseLocation().city)+ ", " + houseObj.getHouseLocation().country;
+            Label locationLabel = new Label(locationStr);
+            locationLabel.setLayoutY(propTypeLabel.getLayoutY()+7);
+            locationLabel.setLayoutX(propTypeLabel.getLayoutX()+90);
             
             
-            Label viewLabel = new Label("Property View: " + houseObj.getView());
+            
+            Label viewLabel = new Label("Property View: " + houseObj.getView());   
             viewLabel.setLayoutX(20);
             viewLabel.setLayoutY(90);
             
@@ -123,7 +183,7 @@ public class UINode
             
            
             detailsPane.setBackground(new Background(new BackgroundFill(Color.GRAY, new CornerRadii(10), javafx.geometry.Insets.EMPTY)));
-            detailsPane.getChildren().addAll(closeBtn,rentBtn,priceLabelDet,viewLabel,propTypeLabel,descriptionLabelDet);
+            detailsPane.getChildren().addAll(locationLabel,closeBtn,rentBtn,priceLabelDet,viewLabel,propTypeLabel,descriptionLabelDet);
             
             Screen primaryScreen = Screen.getPrimary();
             Rectangle2D bounds = primaryScreen.getVisualBounds();
@@ -139,7 +199,7 @@ public class UINode
              detailsStage.showAndWait();
             
             }
-            
+                
              
           
         });
@@ -151,6 +211,9 @@ public class UINode
     }
     public Pane getNode(){
         return container;
+    }
+    public House getHouse(){
+        return this.house;
     }
     
 }

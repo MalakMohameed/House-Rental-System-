@@ -37,7 +37,7 @@ public class Receptionist extends User implements Serializable{
     }
     
       
-        public String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
+    public String generateBookingID(House house, String renterID, Date startDate, Date endDate) { //House ID Creation creiteria 
                                                                                                            ////Why is this function static?     //Fixed
         char renterInitial = renterID.isEmpty() ? '?' : renterID.charAt(0);
         
@@ -52,86 +52,9 @@ public class Receptionist extends User implements Serializable{
         String bookingID = String.valueOf(renterInitial) + houseIDString + numberOfRoomsString + counterString +categoryInitial + viewInitial + datePart;
         return bookingID;
     }
-//     public void createBooking(Renter renter, String HouseID ,int numberOfNights, Enum category, Enum view, Date dateOfRental, Date endOfRental, int numberOfRooms) {
-//         
-//        //i wanna check if a certain house is empty of not. //Fixed 
-//        
-//          int index = -1;
-//        for (int i = 0; i < houseList.size(); i++) {
-//            if (houseList.get(i).getNumberOfRooms() == numberOfRooms &&
-//                houseList.get(i).getCategory() == category &&
-//                houseList.get(i).getView() == view &&
-//                !houseList.get(i).isRented()) {
-//                index = i;
-//                break;
-//            } else {
-//                System.out.println("House Category isn't found.");
-//            }
-//        }
-//
-//        if (index != -1) {
-//            String bookingID = generateBookingID(houseList.get(index), renter.getRenterID(), dateOfRental, endOfRental);
-//            
-//            //Booking newBooking = new Booking(bookingID,this ,numberOfRooms, category, view, dateOfRental, endOfRental); // no constractor that matchs this attributes
-//            Booking tempBook = null;
-//            double cost = tempBook.calculateCost(numberOfNights);
-//            Booking newBooking = new Booking(this, renter,houseList.get(houseList.indexOf(HouseID)),dateOfRental, endOfRental, numberOfNights, cost); 
-//            bookingList.add(newBooking);
-//            // saveBookingToFile(newBooking);
-//        }
-//    }
-    
-    public void specifyRentalDetails(String BookingID){
-        
-          int index = -1 ;
-       for(int i = 0 ; i <bookingList.size(); i++){
-           if(bookingList.get(i).getBookingID().equals(BookingID)){
-               index = i;
-               break;
-           }
-       }
-       if (index != -1) {
-            System.out.println("Booking ID: " + bookingList.get(index).getBookingID());
-        System.out.println("Renter: " + bookingList.get(index).getRenter().getUserName()); 
-        System.out.println("House: " + bookingList.get(index).getRentedHouse().getHouseID());
-       }
-       else{
-             System.out.println("Booking not found.");
-       }
-    }
-    
-    public void selecteHouseCategoty(Category category){
-        House newHouse = new House(); //no defualt constructor //Added Default Constructor
-        newHouse.setCategory(category); //changed line to use setters 
-    }
-    
-   public void cancelBooking(String bookingID) {
-       
-        bookingList.removeIf(booking -> booking.getBookingID().equals(bookingID));
-       // removeBookingFromFile(bookingID);
-    }
+   
 
-    public double calculatePayment(String BookingID,Date dateOfRental,Date endOfRental){
-        
-        int index = -1 ;
-       for(int i = 0 ; i <bookingList.size(); i++){
-           if(bookingList.get(i).getBookingID().equals(BookingID)){
-               index = i;
-               break;
-           }
-       }
-       if (index != -1) {
-       long diffInMillies = Math.abs(endOfRental.getTime() - dateOfRental.getTime());
-       long diffInDays = diffInMillies / (24 * 60 * 60 * 1000);
-       return bookingList.get(index).calculateCost((int) diffInDays); //Fixed in Booking class changed data tyepe from int to long
-       }
-       else {
-            System.out.println("Booking not found.");
-            return 0.0; 
-        }
-    }
-
-      public Receptionist getUserByID(String UserID){ ///Error Handling
+    public Receptionist getUserByID(String UserID){ ///Error Handling
         
         for (Receptionist e : Receptionists){
             if(e.userID.equals(UserID)){
@@ -184,37 +107,83 @@ public class Receptionist extends User implements Serializable{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         String UserField = receptionistObj.getUserName();
-        Label titleLabelWlcm = new Label("Welcome, " + UserField);
         
         Button createBooking = new Button("Add Booking");
         Button deleteBooking = new Button("Remove Booking");
-        Button searchBookings = new Button("Search Booking");
+        Button signOut = new Button("Sign Out");
         createBooking.setOnAction(e->{
             primaryStage.close();
             ShowBookingAdd(primaryStage,receptionistObj);
         });
-        grid.add(titleLabelWlcm,0,0);
+        deleteBooking.setOnAction(e->{
+            primaryStage.close();
+            ShowBookingRemove(primaryStage,receptionistObj);
+        });
+        signOut.setOnAction(e->{
+            primaryStage.close();
+            HouseRental.showLogin(primaryStage);
+        });
         grid.add(createBooking,0,2);
         grid.add(deleteBooking,0,3);
-        grid.add(searchBookings,0,4);
+        grid.add(signOut,0,4);
         return grid;
     }
         public static void ShowAccountMngScrn(Stage primaryStage, Receptionist receptionistObj){
-        GridPane grid = createReceptionistMainScrn(primaryStage, receptionistObj);
-        Scene scene = new Scene(grid, 400,500);
+            GridPane grid = createReceptionistMainScrn(primaryStage, receptionistObj);
+            Scene scene = new Scene(grid, 400,500);
         
-        primaryStage.setTitle("Receptionist");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+            primaryStage.setTitle("Receptionist");
+            primaryStage.setScene(scene);
+            primaryStage.show();
     }
+        public static void ShowBookingRemove(Stage primaryStage, Receptionist receptionistObj){
+            GridPane grid = receptionistObj.createBookingRemove(primaryStage,receptionistObj);
+            Scene scene = new Scene(grid, 400,500);
+        
+            primaryStage.setTitle("Receptionist");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+        public GridPane createBookingRemove(Stage primaryStage, Receptionist receptionistObj){
+        GridPane grid = new GridPane();
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
+        grid.setHgap(10);            grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25)); 
+        
+        Label deleteLabel = new Label("Booking ID");
+        TextField deleteField = new TextField();
+        Button deleteButton = new Button("Remove Booking");
+        Button back = new Button("Back");
+        
+        deleteButton.setOnAction(e->{
+            System.out.println(Booking.getBookings().get(0).getBookingID());
+            for(int i = 0; i < Booking.getBookings().size();i++){
+                if(deleteField.getText().equals(Booking.getBookings().get(i).getBookingID())){
+                    Booking.getBookings().remove(i);
+                    Booking.SerializeBooking();
+                    System.out.println("Booking Removed");
+                    break;
+                }
+            }
+        });
+        back.setOnAction(e->{
+            primaryStage.close();
+            ShowAccountMngScrn(primaryStage,receptionistObj);
+        });
+        grid.add(back,1,1);
+        grid.add(deleteLabel,0,0);
+        grid.add(deleteField,1,0);
+        grid.add(deleteButton, 0, 1);
+        return grid;
+        }
         public static void ShowBookingAdd(Stage primaryStage, Receptionist receptionistObj){
-        GridPane grid = receptionistObj.createBookingAdd(receptionistObj);
+        GridPane grid = receptionistObj.createBookingAdd(primaryStage,receptionistObj);
         Scene scene = new Scene(grid, 400,500);
         primaryStage.setTitle("Add Booking");
         primaryStage.setScene(scene);
         primaryStage.show();
         }
-        public GridPane createBookingAdd(Receptionist receptionistObj){
+        public GridPane createBookingAdd(Stage primaryStage,Receptionist receptionistObj){
         GridPane grid = new GridPane();
         grid.setAlignment(javafx.geometry.Pos.CENTER);
         grid.setHgap(10);            grid.setVgap(10);
@@ -232,15 +201,14 @@ public class Receptionist extends User implements Serializable{
         DatePicker endDateField = new DatePicker();
         
         Button add = new Button("Add Booking");
-        
-add.setOnAction(e -> {
-    try {
-        LocalDate start = startDateField.getValue();
-        LocalDate end = endDateField.getValue();
+        Button back = new Button("Back");
+        add.setOnAction(e -> {
+            try {
+                LocalDate start = startDateField.getValue();
+                LocalDate end = endDateField.getValue();
 
         Date startDateVar = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDateVar = Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
         receptionistObj.bookingList.add(
             new Booking(
                 receptionistObj,
@@ -248,18 +216,22 @@ add.setOnAction(e -> {
                 House.getHouseByID(houseIDField.getText()),
                 startDateVar,
                 endDateVar
-            )
-            
+            )   
         );
+        Booking.getBookings().add(new Booking(receptionistObj,Renter.getUserByID(renterIDField.getText()),House.getHouseByID(houseIDField.getText()),startDateVar,endDateVar));
+        Booking.SerializeBooking();
         User.SerializeBinary();
         System.out.println("Booking successful");
         // You might want to update the UI or provide additional feedback here.
     } catch (Exception ex) {
         System.out.println("Error: " + ex.getMessage());
-        ex.printStackTrace(); 
         // Handle the exception or provide appropriate user feedback.
     }
-});
+    });
+        back.setOnAction(e->{
+            primaryStage.close();
+            ShowAccountMngScrn(primaryStage,receptionistObj);
+        });
         grid.add(renterID, 0, 0);
         grid.add(renterIDField, 1, 0);
         grid.add(houseID, 0, 1);
@@ -269,8 +241,7 @@ add.setOnAction(e -> {
         grid.add(endDate, 0, 3);
         grid.add(endDateField, 1, 3);        
         grid.add(add,0,4);
-        
+        grid.add(back,1,4);
         return grid;
         }
-    
 }

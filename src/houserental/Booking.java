@@ -1,7 +1,16 @@
 package houserental;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 ///Removed Imports from same package. houserental.House and houserental.Receptionist ar both part of house rental package imported above 
@@ -9,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author noor amgad
  */
-public class Booking {
+public class Booking implements Serializable{
     private String bookingID;
     private Receptionist receptionist;
     private Renter renter;
@@ -18,10 +27,11 @@ public class Booking {
     private Date endDate;
     private int numberOfNights;
     private double totalCost;
-  
-    
+    private static int count;
+    private static ArrayList<Booking> Bookings = new ArrayList<>();
     public Booking(Receptionist receptionist, Renter renter, House rentedHouse,
                         Date startDate, Date endDate) {
+        this.bookingID = generateBookingID(renter,rentedHouse);
         this.receptionist = receptionist;
         this.renter = renter;
         this.rentedHouse = rentedHouse;
@@ -32,11 +42,40 @@ public class Booking {
         this.totalCost = calculateCost(numberOfNights);  ///calculate cost is overridable, check function.
 }
 
-//    this constructor got created to match the fucntion in the Receptionist class (createBooking)
-//    Booking(String RenterID, int numberOfRooms, Enum category, Enum view, Date dateOfRental, Date endOfRental) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
-     
+    public String generateBookingID(Renter renter, House house){
+        return renter.getRenterID() + house.getHouseID() + String.valueOf(count++) ;
+    }
+    public static ArrayList<Booking> getBookings(){
+    return Bookings;
+}
+    public static void SerializeBooking(){
+        try{
+        FileOutputStream i = new FileOutputStream("Bookings.dat");
+        ObjectOutputStream in = new ObjectOutputStream(i);
+        in.writeObject(Bookings);
+        in.close();
+        i.close();
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    public static void DeserializeBooking(){
+        try{
+        FileInputStream i = new FileInputStream("Bookings.dat");
+        ObjectInputStream in = new ObjectInputStream(i);
+            try {
+                Bookings = (ArrayList<Booking>) in.readObject();        
+                in.close();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Booking.class.getName()).log(Level.SEVERE, null, ex);
+                in.close();
+            }
+             
+        }catch (IOException e) {
+            System.out.println(e);
+        }
+    }
     public String getBookingID() {
         return bookingID;
     }

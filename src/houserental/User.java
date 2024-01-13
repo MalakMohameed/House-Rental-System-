@@ -69,6 +69,22 @@ import javafx.stage.Stage;
     } 
     
     
+    public static ArrayList<User> getAllUsers(){
+        ArrayList<User> usersArray = new ArrayList();
+        for(short i = 0; i < Admins.size(); i++){
+            usersArray.add(Admins.get(i));
+        }
+         for(short i = 0; i < Renters.size(); i++){
+            usersArray.add(Renters.get(i));
+        }
+          for(short i = 0; i < Receptionists.size(); i++){
+            usersArray.add(Receptionists.get(i));
+        }
+        
+        
+        return usersArray;
+    }
+    
 //    public User getUserByID(String UserID){ ///Error Handling
 //        
 //        for (User e : Users){

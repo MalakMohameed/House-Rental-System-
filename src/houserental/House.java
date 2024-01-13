@@ -31,6 +31,7 @@ public class House implements Serializable {
     //Constructor
     public House(){
         //Default Constructior
+        location = new Location();
     }
 
     public House(Category category, View view, int numberOfRentals, boolean rented, int numberOfBedrooms, int numberOfBathrooms, String Description, int costPerNight, int Rate, String country, String city, String streetName, int zipCode, int buildingNumber, int floorNumber)
@@ -108,6 +109,10 @@ public class House implements Serializable {
         this.category = category;
     }
 
+    public static ArrayList<House> getHouseList(){
+        return houseList;
+    }
+    
     public View getView() {
         return view;
     }
@@ -179,8 +184,52 @@ public class House implements Serializable {
     public void setRate(int Rate) {
         this.Rate = Rate;
     }
-    
     public boolean rented(){
         return rented;
+    }
+    
+    public void setHouseLocation(Location locationObj){
+        this.location = locationObj;
+    }
+    
+    public Location getHouseLocation(){
+        return location;
+    }
+    
+    public String getCountry() {
+        return location.getCountry();
+    }
+    public String getCity() {
+        return location.getCity();
+    }
+    public String getStreetName() {
+        return location.getStreetName();
+    }
+    public int getZipCode(){
+        return location.getZipCode();
+    }
+    public int getBuildingNumber(){
+        return location.getBuildingNumber();
+    }
+    public int getFloorNumber(){
+        return location.getFloorNumber();
+    }
+    public void setCountry(String country){
+        location.setCountry(country);
+    }
+    public void setCity(String city){
+        location.setCity(city);
+    }
+    public void setStreetName(String streetName){
+        location.setStreetName(streetName);
+    }
+    public void setZipCode(int zipcode){
+        location.setZipCode(zipcode);
+    }
+    public void setBuildingNumber(int BuildingNumber){
+        location.setBuildingNumber(BuildingNumber);
+    }
+    public void setFloorNumber(int floorNumber){
+        location.setFloorNumber(floorNumber);
     }
 }
